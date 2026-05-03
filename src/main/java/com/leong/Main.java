@@ -3,25 +3,23 @@ package com.leong;
 import bernard_flou.Fabricateur;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-
-import static protocol.CommandeSerializer.deserialize;
-import static protocol.CommandeSerializer.serialize;
 
 public class Main {
     public static void main(String[] args) {
+        Fabricateur fabricateur=new Fabricateur();
+        Usine usine=new Usine(fabricateur);
+        Map<Fabricateur.TypeLunette, Integer> commande = new HashMap<>();
+        Map<Fabricateur.TypeLunette, Integer> commande2 = new HashMap<>();
+        commande.put(Fabricateur.TypeLunette.CHATGPT, 5);
+        commande2.put(Fabricateur.TypeLunette.CLAUDE,8);
 
-        Map<Fabricateur.TypeLunette, Integer> commandeTest = new HashMap<>();
-        commandeTest.put(Fabricateur.TypeLunette.CHATGPT, 2);
-        commandeTest.put(Fabricateur.TypeLunette.CLAUDE, 1);
-        commandeTest.put(Fabricateur.TypeLunette.LE_CHAT, 4);
-        System.out.println("test");
-        String serialized = serialize(commandeTest);
-        System.out.println(serialized);
+        List<Fabricateur.Lunette> lunettes = usine.produire(commande);
+        List<Fabricateur.Lunette> lunettes2 = usine.produire(commande2);
+        lunettes.forEach(l -> System.out.println(l.type + " : " + l.serial));
 
-        Map<Fabricateur.TypeLunette, Integer> deserialized= deserialize(serialized);
-        System.out.println(deserialized.toString());
-
+        lunettes2.forEach(l -> System.out.println(l.type + " : " + l.serial));
 
     }
 }
