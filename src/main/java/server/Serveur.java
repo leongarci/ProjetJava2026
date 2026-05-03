@@ -13,9 +13,10 @@ public class Serveur {
 
     public static void main(String[] args) {
         String mqttBroker = "tcp://localhost:1883";
-        String mqttTopic = "/test/topic";
-        String username = "JavaClient";
-        String password = "JavaPass";
+        String topicNewOrder = "orders/+";
+        String mqttTopicSerials = "serials/#";
+        String username = "Lunettes";
+        String password = "lunettes";
         String testMsg = "Hi from the Java application";
         int qos = 1;
 
@@ -45,12 +46,12 @@ public class Serveur {
                 });
 
                 /* The client subscribe to a topic */
-                mqttClient.subscribe(mqttTopic, qos);
+                mqttClient.subscribe(topicNewOrder, qos);
                 /* Preparing a message to be published */
                 MqttMessage mqttMsg = new MqttMessage(testMsg.getBytes());
                 mqttMsg.setQos(qos);
                 /* A message is published on the same subscribed topic */
-                mqttClient.publish(mqttTopic, mqttMsg);
+                mqttClient.publish(topicNewOrder, mqttMsg);
             }
 
             /* Keep the application open, so that the subscribe operation can tested */
