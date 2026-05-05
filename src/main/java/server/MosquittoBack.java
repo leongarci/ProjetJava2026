@@ -5,33 +5,39 @@ import java.io.IOException;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-public class Mosquitto {
+public class MosquittoBack {
 
     private final String topicNewOrder = "orders/";
     private final String topicSerials = "serials/";
-    private static final String username = "Lunettes";
-    private static final String password = "lunettes";
     private int qos;
-    private MqttClient mqttClient = null;
+    private MqttClient mqttClient;
 
-    public Mosquitto(String client) {
+    public MosquittoBack(String client) {
         try {
             this.mqttClient = new MqttClient("tcp://localhost:1883", client);
             this.qos = 1;
-            MqttConnectOptions mqttOptions = new MqttConnectOptions();
-            mqttOptions.setUserName(Mosquitto.username);
-            mqttOptions.setPassword(Mosquitto.password.toCharArray());
-            this.mqttClient.connect(mqttOptions);
 
             if (mqttClient.isConnected()) {
                 mqttClient.setCallback(new MqttCallback() {
                     @Override
                     public void messageArrived(String topic, MqttMessage message) throws Exception {
-                        System.out.println("Received message: " + new String(message.getPayload()));
+                        String payload = new String(message.getPayload());
+                        String responseTopic = topic;
+
+                        //TODO
+                        if (responseTopic != null) {
+                            String id = topic.split("/")[2];
+                            if (topic.equals(topicNewOrder + id)) {
+                                //send order par l'usine
+                            } else if (topic.equals(topicSerials + id)) {
+                                // send serials
+
+                            }
+                        }
+
                     }
 
                     @Override
@@ -45,10 +51,8 @@ public class Mosquitto {
                     }
                 });
 
-                if (client.equals("truc client")) {
-                    this.mqttClient.subscribe(topicNewOrder, this.qos);
-                    this.mqttClient.subscribe(topicSerials, this.qos);
-                }
+                this.mqttClient.subscribe(topicNewOrder, this.qos);
+                this.mqttClient.subscribe(topicSerials, this.qos);
 
             }
 
@@ -65,19 +69,6 @@ public class Mosquitto {
             throw new RuntimeException(e);
         }
 
-    }
-
-    public void order(String orderDetails, String uuid) {
-        MqttMessage newOrder = new MqttMessage(orderDetails.getBytes());
-        String orderTopic = topicNewOrder + uuid;
-        newOrder.setQos(this.qos);
-        try {
-            this.mqttClient.publish(orderTopic, newOrder);
-            this.mqttClient.subscribe(orderTopic, this.qos);
-        } catch (MqttException e) {
-            e.printStackTrace();
-
-        }
     }
 
     public void validateOrder(String uuid) {
@@ -104,7 +95,7 @@ public class Mosquitto {
 
     public void deliverOrder(String uuid, String content) {
         MqttMessage delivery = new MqttMessage(content.getBytes());
-        String topic = topicNewOrder + uuid + "/delivered";
+        String topic = topicNewOrder + uuid + "/delivery";
         delivery.setQos(this.qos);
         try {
             this.mqttClient.publish(topic, delivery);
@@ -135,5 +126,4 @@ public class Mosquitto {
             e.printStackTrace();
         }
     }
-
 }
