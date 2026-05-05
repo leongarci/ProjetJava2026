@@ -12,8 +12,8 @@ public class Main {
         Usine usine=new Usine(fabricateur);
         Map<Fabricateur.TypeLunette, Integer> commande = new HashMap<>();
         Map<Fabricateur.TypeLunette, Integer> commande2 = new HashMap<>();
-        commande.put(Fabricateur.TypeLunette.CHATGPT, 5);
-        commande2.put(Fabricateur.TypeLunette.CLAUDE,8);
+        commande.put(Fabricateur.TypeLunette.CHATGPT, 0);
+        commande.put(Fabricateur.TypeLunette.CLAUDE,0);
 
         List<Fabricateur.Lunette> lunettes = usine.produire(commande);
         List<Fabricateur.Lunette> lunettes2 = usine.produire(commande2);
