@@ -1,5 +1,10 @@
 package server;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
+
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 
@@ -11,7 +16,15 @@ public abstract class Mosquitto {
     protected MqttClient mqttClient;
 
     protected void initClient(String client) throws MqttException {
-        this.mqttClient = new MqttClient("tcp://localhost:1883", client);
-        this.qos = 1;
+        try (InputStream input = new FileInputStream(".properties")) {
+            Properties prop = new Properties();
+            prop.load(input);
+            System.out.println(prop.getProperty("mail"));
+            this.mqttClient = new MqttClient(prop.getProperty("broker"), client);
+            this.qos = 1;
+        } catch (IOException ex) {
+            ex.printStackTrace();
+
+        }
     }
 }

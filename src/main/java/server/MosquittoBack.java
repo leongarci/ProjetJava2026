@@ -24,12 +24,11 @@ public class MosquittoBack extends Mosquitto {
                             if (topic.equals(topicNewOrder + id)) {
                                 //send order par l'usine avec payload
                                 mqttClient.unsubscribe(topic);
-                            } else if (topic.equals(topicSerials + id)) {
+                            } else if (topic.equals(topicSerials + id+"/check")) {
                                 // send serials sans payload
                                 mqttClient.unsubscribe(topic);
                             }
                         }
-
                     }
 
                     @Override
@@ -44,7 +43,7 @@ public class MosquittoBack extends Mosquitto {
                 });
 
                 this.mqttClient.subscribe(topicNewOrder, this.qos);
-                this.mqttClient.subscribe(topicSerials, this.qos);
+                this.mqttClient.subscribe(topicSerials+"#", this.qos);
 
             }
 
