@@ -1,2 +1,5 @@
 /target
 /mqttClient-tcplocalhost1883
+
+mosquitto/data/
+mosquitto/log/
