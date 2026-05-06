@@ -12,14 +12,12 @@ public class Main {
         Usine usine=new Usine(fabricateur);
         Map<Fabricateur.TypeLunette, Integer> commande = new HashMap<>();
         Map<Fabricateur.TypeLunette, Integer> commande2 = new HashMap<>();
-        commande.put(Fabricateur.TypeLunette.CHATGPT, 0);
-        commande.put(Fabricateur.TypeLunette.CLAUDE,0);
+        commande.put(Fabricateur.TypeLunette.CHATGPT, 2);
+        commande.put(Fabricateur.TypeLunette.CLAUDE,1);
 
         List<Fabricateur.Lunette> lunettes = usine.produire(commande);
-        List<Fabricateur.Lunette> lunettes2 = usine.produire(commande2);
         lunettes.forEach(l -> System.out.println(l.type + " : " + l.serial));
 
-        lunettes2.forEach(l -> System.out.println(l.type + " : " + l.serial));
 
     }
 }
