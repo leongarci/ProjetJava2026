@@ -42,7 +42,7 @@ public class MosquittoBack extends Mosquitto {
                     }
                 });
 
-                this.mqttClient.subscribe(topicNewOrder, this.qos);
+                this.mqttClient.subscribe(topicNewOrder + "+", this.qos);
                 this.mqttClient.subscribe(topicSerials+"#", this.qos);
 
             }

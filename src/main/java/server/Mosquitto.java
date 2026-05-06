@@ -19,8 +19,8 @@ public abstract class Mosquitto {
         try (InputStream input = new FileInputStream(".properties")) {
             Properties prop = new Properties();
             prop.load(input);
-            System.out.println(prop.getProperty("mail"));
             this.mqttClient = new MqttClient(prop.getProperty("broker"), client);
+            this.mqttClient.connect();
             this.qos = 1;
         } catch (IOException ex) {
             ex.printStackTrace();

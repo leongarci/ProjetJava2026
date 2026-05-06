@@ -79,7 +79,7 @@ public class MosquittoApp extends Mosquitto {
         String orderTopic = topicNewOrder + uuid;
         newOrder.setQos(this.qos);
         try {
-            this.mqttClient.subscribe(orderTopic, this.qos);
+            this.mqttClient.subscribe(orderTopic + "/#", this.qos);
             this.mqttClient.publish(orderTopic, newOrder);
         } catch (MqttException e) {
             e.printStackTrace();
