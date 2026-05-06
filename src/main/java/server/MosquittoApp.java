@@ -4,21 +4,14 @@ import java.io.IOException;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-public class MosquittoApp {
-
-    private final String topicNewOrder = "orders/";
-    private final String topicSerials = "serials/";
-    private int qos;
-    private MqttClient mqttClient;
+public class MosquittoApp extends Mosquitto {
 
     public MosquittoApp(String client) {
         try {
-            this.mqttClient = new MqttClient("tcp://localhost:1883", client);
-            this.qos = 1;
+            initClient(client);
 
             if (mqttClient.isConnected()) {
                 mqttClient.setCallback(new MqttCallback() {
@@ -26,7 +19,31 @@ public class MosquittoApp {
                     public void messageArrived(String topic, MqttMessage message) throws Exception {
                         String payload = new String(message.getPayload());
                         String responseTopic = topic;
-                        //TODO
+                        if (responseTopic != null) {
+                            String id = topic.split("/")[1];
+                            if (topic.startsWith(topicNewOrder + id + "/")) {
+                                String status = topic.substring(topic.lastIndexOf("/") + 1);
+                                switch (status) {
+                                    case "validated" -> {
+                                        /* Handle validated */ }
+                                    case "cancelled" -> {
+                                        /* Handle cancelled with payload */
+                                        mqttClient.unsubscribe(topic);
+                                    }
+                                    case "delivery" -> {
+                                        /* Handle delivery with payload*/
+                                        mqttClient.unsubscribe(topic);
+                                    }
+                                    case "error" -> {
+                                        /* Handle error with payload */
+                                        mqttClient.unsubscribe(topic);
+                                    }
+                                }
+                            } else if (topic.startsWith(topicSerials)) {
+                                /* Handle serials with payload */
+                                mqttClient.unsubscribe(topic);
+                            }
+                        }
                     }
 
                     @Override
@@ -66,7 +83,6 @@ public class MosquittoApp {
             this.mqttClient.subscribe(orderTopic, this.qos);
         } catch (MqttException e) {
             e.printStackTrace();
-
         }
     }
 

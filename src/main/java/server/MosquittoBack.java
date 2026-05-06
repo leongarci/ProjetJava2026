@@ -4,21 +4,14 @@ import java.io.IOException;
 
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 
-public class MosquittoBack {
-
-    private final String topicNewOrder = "orders/";
-    private final String topicSerials = "serials/";
-    private int qos;
-    private MqttClient mqttClient;
+public class MosquittoBack extends Mosquitto {
 
     public MosquittoBack(String client) {
         try {
-            this.mqttClient = new MqttClient("tcp://localhost:1883", client);
-            this.qos = 1;
+            initClient(client);
 
             if (mqttClient.isConnected()) {
                 mqttClient.setCallback(new MqttCallback() {
@@ -26,15 +19,14 @@ public class MosquittoBack {
                     public void messageArrived(String topic, MqttMessage message) throws Exception {
                         String payload = new String(message.getPayload());
                         String responseTopic = topic;
-
-                        //TODO
                         if (responseTopic != null) {
-                            String id = topic.split("/")[2];
+                            String id = topic.split("/")[1];
                             if (topic.equals(topicNewOrder + id)) {
-                                //send order par l'usine
+                                //send order par l'usine avec payload
+                                mqttClient.unsubscribe(topic);
                             } else if (topic.equals(topicSerials + id)) {
-                                // send serials
-
+                                // send serials sans payload
+                                mqttClient.unsubscribe(topic);
                             }
                         }
 
