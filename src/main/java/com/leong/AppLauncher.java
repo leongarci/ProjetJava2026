@@ -1,6 +1,7 @@
 package com.leong;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
@@ -9,12 +10,14 @@ import javafx.stage.Stage;
 public class AppLauncher extends Application {
 
     @Override
-    public void start(Stage stage) {
-        // Pour l'instant, on crée une fenêtre simple avec un texte
-        Label label = new Label("Bienvenue dans la Fabrique de Lunettes !");
-        Scene scene = new Scene(new StackPane(label), 640, 480);
+    public void start(Stage stage) throws Exception {
 
-        stage.setTitle("Client Lunettes Connectées");
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/accueil.fxml"));
+
+
+        Scene scene = new Scene(fxmlLoader.load(), 800, 600);
+
+        stage.setTitle("La Fabrique de Lunettes");
         stage.setScene(scene);
         stage.show();
     }

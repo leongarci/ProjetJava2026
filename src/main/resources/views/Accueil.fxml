@@ -1,14 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="views.Accueil"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="views.Accueil">
+   <children>
+      <VBox alignment="CENTER" layoutX="53.0" layoutY="44.0" prefHeight="311.0" prefWidth="494.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="166.0" prefWidth="494.0" text="La Fabrique de Lunettes" textAlignment="CENTER">
+               <font>
+                  <Font name="Bodoni MT" size="18.0" />
+               </font></Label>
+            <Button fx:id="btnEntrer" alignment="CENTER" contentDisplay="CENTER" layoutY="50.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="211.0" text="Commencer une commande" textAlignment="CENTER" />
+            <Label alignment="BOTTOM_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="163.0" prefWidth="510.0" text="Jung Maxime,  Garcia Léon, Holder Jules, Rosina José" textAlignment="CENTER">
+               <font>
+                  <Font name="Bodoni MT" size="10.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+   </children>
 </AnchorPane>
