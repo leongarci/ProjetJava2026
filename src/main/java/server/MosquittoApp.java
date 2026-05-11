@@ -24,23 +24,21 @@ public class MosquittoApp extends Mosquitto {
                             if (topic.startsWith(topicNewOrder + id + "/")) {
                                 String status = topic.substring(topic.lastIndexOf("/") + 1);
                                 switch (status) {
-                                    case "validated" -> {
-                                        /* Handle validated */ }
+                                    case "validated" -> System.out.println("[APP] Commande validée");
                                     case "cancelled" -> {
-                                        /* Handle cancelled with payload */
-                                        mqttClient.unsubscribe(topic);
+                                        System.out.println("[APP] Commande annulée : " + payload);
+                                        mqttClient.unsubscribe(topicNewOrder + id + "/#");
                                     }
                                     case "delivery" -> {
-                                        /* Handle delivery with payload*/
-                                        mqttClient.unsubscribe(topic);
+                                        System.out.println("[APP] Livraison reçue : " + payload);
+                                        mqttClient.unsubscribe(topicNewOrder + id + "/#");
                                     }
                                     case "error" -> {
-                                        /* Handle error with payload */
-                                        mqttClient.unsubscribe(topic);
+                                        System.out.println("[APP] Erreur : " + payload);
+                                        mqttClient.unsubscribe(topicNewOrder + id + "/#");
                                     }
                                 }
                             } else if (topic.startsWith(topicSerials)) {
-                                /* Handle serials with payload */
                                 mqttClient.unsubscribe(topic);
                             }
                         }
@@ -57,18 +55,18 @@ public class MosquittoApp extends Mosquitto {
                     }
                 });
 
-            }
 
-            /* Keep the application open, so that the subscribe operation can tested */
+            }
             System.out.println("Press Enter to disconnect");
             System.in.read();
-            /* Proceed with disconnecting */
             mqttClient.disconnect();
             mqttClient.close();
 
         } catch (MqttException e) {
+            System.err.println("[APP] MqttException : " + e.getMessage());
             e.printStackTrace();
         } catch (IOException e) {
+            System.err.println("[APP] IOException : " + e.getMessage());
             throw new RuntimeException(e);
         }
 

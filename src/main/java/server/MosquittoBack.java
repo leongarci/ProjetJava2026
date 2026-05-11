@@ -18,6 +18,7 @@ public class MosquittoBack extends Mosquitto {
                     @Override
                     public void messageArrived(String topic, MqttMessage message) throws Exception {
                         String payload = new String(message.getPayload());
+                        System.out.println("[BACK] Reçu sur " + topic + " → " + payload);
                         String responseTopic = topic;
                         if (responseTopic != null) {
                             String id = topic.split("/")[1];
