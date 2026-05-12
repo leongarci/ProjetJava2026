@@ -21,21 +21,6 @@ public class Usine {
     }
 
     public List<Fabricateur.Lunette> produire(Map<Fabricateur.TypeLunette, Integer> typesLunettes) {
-        if (typesLunettes.isEmpty()) {
-            throw new IllegalArgumentException("Il n'y a pas de lunettes à fabriquer");
-        }
-        int quantite = typesLunettes.values().stream().reduce(0, Integer::sum);
-        if (quantite <= 0) {
-            throw new IllegalArgumentException("Le nombre de lunettes à fabriquer est inférieur ou égal à 0");
-        }
-
-        // Vérification quantités
-        for (var entry : typesLunettes.entrySet()) {
-            int q = entry.getValue();
-            if (q < 0 || q > 9)
-                throw new IllegalArgumentException("La quantité de " + entry.getKey() + " est invalide : " + q);
-        }
-
         // Un Future par type de lunette exécutés en parallèle
         List<CompletableFuture<List<Fabricateur.Lunette>>> futures = typesLunettes.entrySet().stream()
                 .map(entry -> CompletableFuture.supplyAsync(
@@ -48,6 +33,21 @@ public class Usine {
                 .map(CompletableFuture::join)
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
+    }
+
+    public void valider(Map<Fabricateur.TypeLunette, Integer> typesLunettes) {
+        if (typesLunettes.isEmpty()) {
+            throw new IllegalArgumentException("Il n'y a pas de lunettes à fabriquer");
+        }
+        int quantite = typesLunettes.values().stream().reduce(0, Integer::sum);
+        if (quantite <= 0) {
+            throw new IllegalArgumentException("Le nombre de lunettes à fabriquer est inférieur ou égal à 0");
+        }
+        for (var entry : typesLunettes.entrySet()) {
+            int q = entry.getValue();
+            if (q < 0 || q > 9)
+                throw new IllegalArgumentException("La quantité de " + entry.getKey() + " est invalide : " + q);
+        }
     }
 
     private List<Fabricateur.Lunette> produireType(Fabricateur.TypeLunette type, int quantiteTotale) {

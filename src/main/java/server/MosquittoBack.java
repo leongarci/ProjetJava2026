@@ -27,12 +27,11 @@ public class MosquittoBack extends Mosquitto {
                     public void messageArrived(String topic, MqttMessage message) throws Exception {
                         String payload = new String(message.getPayload());
                         String id = topic.split("/")[1];
-
                         if (topic.equals(topicNewOrder + id)) {
                             try {
                                 Map<Fabricateur.TypeLunette, Integer> commande = CommandeSerializer.deserialize(payload);
+                                usine.valider(commande);
                                 validateOrder(id);
-
                                 usine.produireAsync(commande)
                                         .whenComplete((lunettes, error) -> {
                                             if (error != null) {
@@ -50,7 +49,7 @@ public class MosquittoBack extends Mosquitto {
                                         });
 
                             } catch (IllegalArgumentException e) {
-                                errorOrder(id, e.getMessage());
+                                cancelOrder(id, e.getMessage());
                                 mqttClient.unsubscribe(topic);
                             }
 
