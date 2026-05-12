@@ -5,7 +5,11 @@ services:
     ports:
       - "1883:1883"
     volumes:
-      - ./mosquitto/config:/mosquitto/config
-      - ./mosquitto/data:/mosquitto/data
-      - ./mosquitto/log:/mosquitto/log
+      - ./mosquitto/config:/mosquitto/config:Z
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_log:/mosquitto/log
     restart: always
+
+volumes:
+  mosquitto_data:
+  mosquitto_log:
