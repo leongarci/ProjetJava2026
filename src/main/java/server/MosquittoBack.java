@@ -1,15 +1,23 @@
 package server;
 
 import java.io.IOException;
+import java.util.Map;
 
+import bernard_flou.Fabricateur;
+import com.leong.Usine;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import protocol.CommandeSerializer;
+import protocol.LivraisonSerializer;
 
 public class MosquittoBack extends Mosquitto {
 
-    public MosquittoBack(String client) {
+    private final Usine usine;
+
+    public MosquittoBack(String client, Usine usine) {
+        this.usine = usine;
         try {
             initClient(client);
 
@@ -18,17 +26,39 @@ public class MosquittoBack extends Mosquitto {
                     @Override
                     public void messageArrived(String topic, MqttMessage message) throws Exception {
                         String payload = new String(message.getPayload());
-                        System.out.println("[BACK] Reçu sur " + topic + " → " + payload);
-                        String responseTopic = topic;
-                        if (responseTopic != null) {
-                            String id = topic.split("/")[1];
-                            if (topic.equals(topicNewOrder + id)) {
-                                //send order par l'usine avec payload
-                                mqttClient.unsubscribe(topic);
-                            } else if (topic.equals(topicSerials + id+"/check")) {
-                                // send serials sans payload
+                        String id = topic.split("/")[1];
+
+                        if (topic.equals(topicNewOrder + id)) {
+                            try {
+                                Map<Fabricateur.TypeLunette, Integer> commande = CommandeSerializer.deserialize(payload);
+                                validateOrder(id);
+
+                                usine.produireAsync(commande)
+                                        .whenComplete((lunettes, error) -> {
+                                            if (error != null) {
+                                                Throwable cause = error.getCause() != null ? error.getCause() : error;
+                                                errorOrder(id, cause.getMessage());
+                                            } else {
+                                                String serials = LivraisonSerializer.serialize(lunettes);
+                                                deliverOrder(id, serials);
+                                            }
+                                            try {
+                                                mqttClient.unsubscribe(topic);
+                                            } catch (MqttException ex) {
+                                                ex.printStackTrace();
+                                            }
+                                        });
+
+                            } catch (IllegalArgumentException e) {
+                                errorOrder(id, e.getMessage());
                                 mqttClient.unsubscribe(topic);
                             }
+
+                        } else if (topic.equals(topicSerials + id + "/check")) {
+                            String serial = String.valueOf(usine.getSerialsProduits().get(id));
+                            if (serial.equals("null")) serial = "invalid";
+                            serialsInfos(id, serial);
+                            mqttClient.unsubscribe(topic);
                         }
                     }
 
@@ -48,10 +78,8 @@ public class MosquittoBack extends Mosquitto {
 
             }
 
-            /* Keep the application open, so that the subscribe operation can tested */
             System.out.println("Press Enter to disconnect");
             System.in.read();
-            /* Proceed with disconnecting */
             mqttClient.disconnect();
             mqttClient.close();
 
