@@ -1,4 +1,4 @@
-package protocol;
+package BackEnd.protocol;
 import bernard_flou.Fabricateur;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +21,12 @@ public class Usine {
     }
 
     public List<Fabricateur.Lunette> produire(Map<Fabricateur.TypeLunette, Integer> typesLunettes) {
-        // Un Future par type de lunette exécutés en parallèle
         List<CompletableFuture<List<Fabricateur.Lunette>>> futures = typesLunettes.entrySet().stream()
                 .map(entry -> CompletableFuture.supplyAsync(
                         () -> produireType(entry.getKey(), entry.getValue()),
                         executorService
                 ))
-                .collect(Collectors.toList());
+                .toList();
 
         return futures.stream()
                 .map(CompletableFuture::join)

@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox spacing="15.0" alignment="TOP_CENTER" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.leong.controller.CatalogueController">
+<VBox spacing="15.0" alignment="TOP_CENTER" prefHeight="500.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FrontEnd.controller.CatalogueController">
     <padding>
         <Insets top="30" right="30" bottom="30" left="30"/>
     </padding>

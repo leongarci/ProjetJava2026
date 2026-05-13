@@ -1,4 +1,4 @@
-package server;
+package BackEnd.server;
 
 import java.io.FileInputStream;
 import java.io.IOException;

@@ -1,11 +1,9 @@
-package protocol;
+package BackEnd.protocol;
 
 import bernard_flou.Fabricateur;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class LivraisonSerializer {
     public static String serialize(List<Fabricateur.Lunette> livraisons){

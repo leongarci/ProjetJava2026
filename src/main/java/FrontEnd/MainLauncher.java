@@ -1,4 +1,4 @@
-package com.leong;
+package FrontEnd;
 
 public class MainLauncher {
     public static void main(String[] args) {

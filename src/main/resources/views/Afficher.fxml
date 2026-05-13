@@ -3,7 +3,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<VBox alignment="CENTER" spacing="20.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.leong.controller.AfficherController">
+<VBox alignment="CENTER" spacing="20.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="FrontEnd.controller.AfficherController">
     <children>
         <Label text="Suivi de Fabrication" style="-fx-font-size: 20px; -fx-font-weight: bold;" />
         <Label fx:id="lblStatut" text="Initialisation..." />

@@ -1,4 +1,4 @@
-package server;
+package BackEnd.server;
 
 import java.io.IOException;
 import java.util.Map;
@@ -8,7 +8,7 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import protocol.CommandeSerializer;
+import BackEnd.protocol.CommandeSerializer;
 
 public class MosquittoApp extends Mosquitto {
 

@@ -1,4 +1,4 @@
-package server;
+package BackEnd.server;
 
 public class MainApp {
 

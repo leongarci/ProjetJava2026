@@ -1,7 +1,7 @@
-package server;
+package BackEnd.server;
 
 import bernard_flou.Fabricateur;
-import protocol.Usine;
+import BackEnd.protocol.Usine;
 
 public class MainBack {
     public static void main(String[] args) {
