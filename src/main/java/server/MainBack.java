@@ -3,7 +3,7 @@ package server;
 import bernard_flou.Fabricateur;
 import protocol.Usine;
 
-public class mainBack {
+public class MainBack {
     public static void main(String[] args) {
         Fabricateur fabricateur = new Fabricateur();
         Usine usine = new Usine(fabricateur);
