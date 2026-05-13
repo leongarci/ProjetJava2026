@@ -4,8 +4,11 @@ import bernard_flou.Fabricateur;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class CommandeSerializer {
+    private static final Pattern FORMAT = Pattern.compile("^([A-Z]+:\\d+;)+$");
+
 
     public static String serialize(Map<Fabricateur.TypeLunette,Integer> commande){
         StringBuilder sb = new StringBuilder();
@@ -15,7 +18,9 @@ public class CommandeSerializer {
 
     public static Map<Fabricateur.TypeLunette, Integer> deserialize(String payload) {
         Map<Fabricateur.TypeLunette, Integer> deserialized = new HashMap<>();
-        //ptite modif : ça vérifie pas le format
+        if (!FORMAT.matcher(payload).matches()) {
+            throw new IllegalArgumentException("Format de commande invalide : " + payload);
+        }
         for (String part : payload.split(";")) {
             if (part.isBlank()) continue;
             String[] split = part.split(":");

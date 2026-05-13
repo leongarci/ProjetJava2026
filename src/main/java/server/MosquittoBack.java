@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.Map;
 
 import bernard_flou.Fabricateur;
-import com.leong.Usine;
+import protocol.Usine;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttException;

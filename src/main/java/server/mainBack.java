@@ -1,7 +1,7 @@
 package server;
 
 import bernard_flou.Fabricateur;
-import com.leong.Usine;
+import protocol.Usine;
 
 public class mainBack {
     public static void main(String[] args) {
