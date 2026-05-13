@@ -1,4 +1,4 @@
-package FrontEnd.controller;
+package frontend.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;

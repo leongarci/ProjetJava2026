@@ -1,7 +1,6 @@
-package BackEnd;
+package backend;
 
 import bernard_flou.Fabricateur;
-import BackEnd.protocol.Usine;
 
 import java.util.HashMap;
 import java.util.List;

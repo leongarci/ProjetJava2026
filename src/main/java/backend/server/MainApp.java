@@ -1,4 +1,6 @@
-package BackEnd.server;
+package backend.server;
+
+import frontend.MosquittoApp;
 
 public class MainApp {
 

@@ -1,16 +1,17 @@
-package BackEnd.server;
+package backend.server;
 
 import java.io.IOException;
 import java.util.Map;
 
 import bernard_flou.Fabricateur;
-import BackEnd.protocol.Usine;
+import backend.Usine;
+import common.Mosquitto;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import BackEnd.protocol.CommandeSerializer;
-import BackEnd.protocol.LivraisonSerializer;
+import common.protocol.CommandeSerializer;
+import common.protocol.LivraisonSerializer;
 
 public class MosquittoBack extends Mosquitto {
 

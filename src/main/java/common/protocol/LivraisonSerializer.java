@@ -1,4 +1,4 @@
-package BackEnd.protocol;
+package common.protocol;
 
 import bernard_flou.Fabricateur;
 

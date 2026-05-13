@@ -1,14 +1,15 @@
-package BackEnd.server;
+package frontend;
 
 import java.io.IOException;
 import java.util.Map;
 
 import bernard_flou.Fabricateur;
+import common.Mosquitto;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
-import BackEnd.protocol.CommandeSerializer;
+import common.protocol.CommandeSerializer;
 
 public class MosquittoApp extends Mosquitto {
 
@@ -57,13 +58,6 @@ public class MosquittoApp extends Mosquitto {
                         System.out.println("Message publish is complete: " + token.isComplete());
                     }
                 });
-
-                String uuid = "test-uuid";
-                order(CommandeSerializer.serialize(Map.of(
-                        Fabricateur.TypeLunette.CHATGPT, 2,
-                        Fabricateur.TypeLunette.CLAUDE, 1
-                )), uuid);
-                System.out.println("[APP] Commande envoyée pour " + uuid);
             }
 
             System.out.println("Press Enter to disconnect");
