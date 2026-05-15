@@ -1,10 +1,12 @@
 package frontend.controller;
 
+import frontend.MosquittoApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 
 public class VerifierController {
+    private MosquittoApp mosquittoApp;
 
     @FXML
     private TextField txtNumeroAVerifier;
@@ -24,5 +26,9 @@ public class VerifierController {
 
         System.out.println("Vérification demandée pour : " + code);
         lblResultat.setText("Analyse du code " + code + "...");
+    }
+
+    public void setMosquittoApp(MosquittoApp mosquittoApp) {
+        this.mosquittoApp = mosquittoApp;
     }
 }

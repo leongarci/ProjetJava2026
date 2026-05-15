@@ -1,10 +1,12 @@
 package frontend.controller;
 
+import frontend.MosquittoApp;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Label;
 
 public class AfficherController {
+    private MosquittoApp mosquittoApp;
 
     @FXML
     private ListView<String> listNumerosSerie;
@@ -19,5 +21,9 @@ public class AfficherController {
     @FXML
     public void initialize() {
         lblStatut.setText("En attente de fabrication par l'usine...");
+    }
+
+    public void setMosquittoApp(MosquittoApp mosquittoApp) {
+        this.mosquittoApp = mosquittoApp;
     }
 }

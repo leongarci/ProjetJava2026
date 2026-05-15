@@ -1,9 +1,9 @@
 package frontend;
 
-import java.io.IOException;
 import java.util.Map;
 
 import bernard_flou.Fabricateur;
+import common.CommandeListener;
 import common.Mosquitto;
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
@@ -13,6 +13,13 @@ import common.protocol.CommandeSerializer;
 
 public class MosquittoApp extends Mosquitto {
 
+    private CommandeListener listener = new CommandeListener() {
+        public void onValidated(String uuid) {}
+        public void onDelivery(String uuid, String serials) {}
+        public void onCancelled(String uuid, String reason) {}
+        public void onError(String uuid, String error) {}
+    };
+
     public MosquittoApp(String client) {
         try {
             initClient(client);
@@ -21,6 +28,7 @@ public class MosquittoApp extends Mosquitto {
                 mqttClient.setCallback(new MqttCallback() {
                     @Override
                     public void messageArrived(String topic, MqttMessage message) throws Exception {
+                        System.out.println("[APP] Message reçu sur : " + topic);
                         String payload = new String(message.getPayload());
                         String responseTopic = topic;
                         if (responseTopic != null) {
@@ -28,17 +36,17 @@ public class MosquittoApp extends Mosquitto {
                             if (topic.startsWith(topicNewOrder + id + "/")) {
                                 String status = topic.substring(topic.lastIndexOf("/") + 1);
                                 switch (status) {
-                                    case "validated" -> System.out.println("[APP] Commande validée");
+                                    case "validated" -> listener.onValidated(id);
                                     case "cancelled" -> {
-                                        System.out.println("[APP] Commande annulée : " + payload);
+                                        listener.onCancelled(id, payload);
                                         mqttClient.unsubscribe(topicNewOrder + id + "/#");
                                     }
                                     case "delivery" -> {
-                                        System.out.println("[APP] Livraison reçue : " + payload);
+                                        listener.onDelivery(id, payload);
                                         mqttClient.unsubscribe(topicNewOrder + id + "/#");
                                     }
                                     case "error" -> {
-                                        System.out.println("[APP] Erreur : " + payload);
+                                        listener.onError(id, payload);
                                         mqttClient.unsubscribe(topicNewOrder + id + "/#");
                                     }
                                 }
@@ -60,20 +68,24 @@ public class MosquittoApp extends Mosquitto {
                 });
             }
 
-            System.out.println("Press Enter to disconnect");
-            System.in.read();
-            mqttClient.disconnect();
-            mqttClient.close();
-
         } catch (MqttException e) {
             System.err.println("[APP] MqttException : " + e.getMessage());
             e.printStackTrace();
-        } catch (IOException e) {
-            System.err.println("[APP] IOException : " + e.getMessage());
-            throw new RuntimeException(e);
         }
 
     }
+
+    public void disconnect() {
+    try {
+        if (mqttClient.isConnected()) {
+            mqttClient.disconnect();
+        }
+        mqttClient.close();
+    } catch (MqttException e) {
+        System.err.println("[APP] MqttException during disconnect: " + e.getMessage());
+        e.printStackTrace();
+    }
+}
 
     public void order(String orderDetails, String uuid) {
         MqttMessage newOrder = new MqttMessage(orderDetails.getBytes());
@@ -97,5 +109,9 @@ public class MosquittoApp extends Mosquitto {
         } catch (MqttException e) {
             e.printStackTrace();
         }
+    }
+
+    public void setListener(CommandeListener listener) {
+        this.listener = listener;
     }
 }

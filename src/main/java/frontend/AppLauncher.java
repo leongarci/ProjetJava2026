@@ -1,5 +1,6 @@
 package frontend;
 
+import frontend.controller.AccueilController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -10,14 +11,18 @@ public class AppLauncher extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
+        MosquittoApp mosquittoApp = new MosquittoApp("app-client");
+
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/accueil.fxml"));
 
 
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
-
+        AccueilController controller = fxmlLoader.getController();
+        controller.setMosquittoApp(mosquittoApp);
         stage.setTitle("La Fabrique de Lunettes");
         stage.setScene(scene);
         stage.show();
+        stage.setOnCloseRequest(event -> mosquittoApp.disconnect());
     }
 
     public static void main(String[] args) {

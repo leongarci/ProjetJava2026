@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 public class CommandeSerializer {
-    private static final Pattern FORMAT = Pattern.compile("^([A-Z]+:\\d+;)+$");
+    private static final Pattern FORMAT = Pattern.compile("^([A-Z_]+:\\d+;)+$");
 
 
     public static String serialize(Map<Fabricateur.TypeLunette,Integer> commande){

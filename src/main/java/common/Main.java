@@ -1,5 +1,6 @@
-package backend;
+package common;
 
+import backend.Usine;
 import bernard_flou.Fabricateur;
 
 import java.util.HashMap;

@@ -12,14 +12,36 @@
     <GridPane vgap="10" hgap="20" alignment="CENTER">
 
         <Label text="Modèle CHATGPT :" GridPane.rowIndex="0" GridPane.columnIndex="0" />
-        <Spinner fx:id="spinChatGPT" initialValue="0" max="9" min="0" GridPane.rowIndex="0" GridPane.columnIndex="1" />
-
+        <Spinner fx:id="spinChatGPT" initialValue="0" max="9" min="0" GridPane.rowIndex="0" GridPane.columnIndex="1">
+            <valueFactory>
+                <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="9" initialValue="0" />
+            </valueFactory>
+        </Spinner>
 
         <Label text="Modèle CLAUDE :" GridPane.rowIndex="1" GridPane.columnIndex="0" />
-        <Spinner fx:id="spinClaude" initialValue="0" max="9" min="0" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+        <Spinner fx:id="spinClaude" initialValue="0" max="9" min="0" GridPane.rowIndex="1" GridPane.columnIndex="1">
+            <valueFactory>
+                <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="9" initialValue="0" />
+            </valueFactory>
+        </Spinner>
+
+        <Label text="Modèle BANANA :" GridPane.rowIndex="2" GridPane.columnIndex="0" />
+        <Spinner fx:id="spinBanana" initialValue="0" max="9" min="0" GridPane.rowIndex="2" GridPane.columnIndex="1">
+            <valueFactory>
+                <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="9" initialValue="0" />
+            </valueFactory>
+        </Spinner>
+
+        <Label text="Modèle LE_CHAT :" GridPane.rowIndex="3" GridPane.columnIndex="0" />
+        <Spinner fx:id="spinLeChat" initialValue="0" max="9" min="0" GridPane.rowIndex="3" GridPane.columnIndex="1">
+            <valueFactory>
+                <SpinnerValueFactory.IntegerSpinnerValueFactory min="0" max="9" initialValue="0" />
+            </valueFactory>
+        </Spinner>
 
 
     </GridPane>
 
-    <Button text="Commander et Envoyer à l'Usine" onAction="#onCommanderClique" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+    <Button fx:id="btnCommande" text="Commander et Envoyer à l'Usine" onAction="#onCommanderClique" style="-fx-background-color: #4CAF50; -fx-text-fill: white;" />
+    <Label fx:id="labelStatus" text="" style="-fx-text-fill: gray;" />
 </VBox>
