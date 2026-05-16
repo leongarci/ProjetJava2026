@@ -13,7 +13,7 @@ public class AppLauncher extends Application {
 
         MosquittoApp mosquittoApp = new MosquittoApp("app-client");
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/accueil.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Accueil.fxml"));
 
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         AccueilController controller = fxmlLoader.getController();
