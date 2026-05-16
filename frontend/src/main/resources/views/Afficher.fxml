@@ -13,7 +13,7 @@
 
         <ListView fx:id="listNumerosSerie" prefHeight="250.0" prefWidth="500.0" />
 
-        <Button fx:id="btnRetour" text="Retour au Catalogue" onAction="#onCommanderClique"
+        <Button fx:id="btnRetour" text="Retour à l'accueil" onAction="#onRetourClique"
             disable="true" />
     </children>
     <padding>

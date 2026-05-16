@@ -54,7 +54,7 @@ public class AfficherController implements CommandeListener {
     }
 
     @FXML
-    private void onCommanderClique(ActionEvent event) {
+    private void onRetourClique(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Accueil.fxml"));
             Parent root = loader.load();

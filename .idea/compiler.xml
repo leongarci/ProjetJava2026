@@ -6,7 +6,9 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ProjetJava2026" />
+        <module name="common" />
+        <module name="backend" />
+        <module name="frontend" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="21" />

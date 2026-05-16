@@ -16,6 +16,7 @@
                     </children>
                 </HBox>
                 <Button text="Vérifier la validité" onAction="#onBoutonVerifierClick" />
+                <Button fx:id="btnRetour" text="Retour à l'accueil" onAction="#onRetourClique"/>
                 <Label fx:id="lblResultat" text="..." style="-fx-text-fill: blue;" />
             </children>
         </VBox>

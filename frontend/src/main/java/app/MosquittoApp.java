@@ -56,6 +56,7 @@ public class MosquittoApp extends Mosquitto {
                                     }
                                 }
                             } else if (topic.startsWith(topicSerials)) {
+                                listener.onChecked(id,payload);
                                 mqttClient.unsubscribe(topic);
                             }
                         }
@@ -104,12 +105,12 @@ public class MosquittoApp extends Mosquitto {
         }
     }
 
-    public void askSerials(String uuid) {
-        MqttMessage ask = new MqttMessage(uuid.getBytes());
-        String topic = topicSerials + uuid + "/check";
+    public void askSerials(String code) {
+        MqttMessage ask = new MqttMessage(code.getBytes());
+        String topic = topicSerials + code + "/check";
         ask.setQos(this.qos);
         try {
-            this.mqttClient.subscribe(topicSerials + uuid, this.qos);
+            this.mqttClient.subscribe(topicSerials + code, this.qos);
             this.mqttClient.publish(topic, ask);
         } catch (MqttException e) {
             e.printStackTrace();

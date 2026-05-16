@@ -13,4 +13,6 @@ public interface CommandeListener {
 
     default void onError(String uuid, String error) {
     }
+
+    default void onChecked(String uuid, String typeLunette){}
 }
