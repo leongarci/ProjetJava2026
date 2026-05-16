@@ -54,7 +54,10 @@ public class CatalogueController implements CommandeListener {
     public void onValidated(String uuid){
         Platform.runLater(() -> {
             try{
-                Parent root = FXMLLoader.load(getClass().getResource("/views/Afficher.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Afficher.fxml"));
+                Parent root = loader.load();
+                AfficherController controller = loader.getController();
+                controller.setMosquittoApp(mosquittoApp);
                 stage.setScene(new Scene(root));
                 stage.show();
             }
@@ -65,7 +68,6 @@ public class CatalogueController implements CommandeListener {
         });
     };
 
-    public void onDelivery(String uuid, String serials){};
     public void onCancelled(String uuid, String reason){
         Platform.runLater(() -> {
             labelStatus.setText("Commande annulée : " + reason);
