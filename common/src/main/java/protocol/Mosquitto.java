@@ -7,6 +7,7 @@ import java.util.Properties;
 
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 
 public abstract class Mosquitto {
 
@@ -19,7 +20,7 @@ public abstract class Mosquitto {
         try (InputStream input = new FileInputStream(".properties")) {
             Properties prop = new Properties();
             prop.load(input);
-            this.mqttClient = new MqttClient(prop.getProperty("broker"), client);
+            this.mqttClient = new MqttClient(prop.getProperty("broker"), client,new MemoryPersistence());
             this.mqttClient.connect();
             this.qos = 1;
         } catch (IOException ex) {

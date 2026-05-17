@@ -8,6 +8,8 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import protocol.CommandeListener;
 import protocol.Mosquitto;
 
+import java.util.UUID;
+
 public class MosquittoApp extends Mosquitto {
 
     private CommandeListener listener = new CommandeListener() {
@@ -26,7 +28,7 @@ public class MosquittoApp extends Mosquitto {
 
     public MosquittoApp(String client) {
         try {
-            initClient(client);
+            initClient(client+ UUID.randomUUID());
 
             if (mqttClient.isConnected()) {
                 mqttClient.setCallback(new MqttCallback() {

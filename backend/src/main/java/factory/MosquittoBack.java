@@ -33,7 +33,7 @@ public class MosquittoBack extends Mosquitto {
                                 Map<Fabricateur.TypeLunette, Integer> commande = CommandeSerializer.deserialize(payload);
                                 usine.valider(commande);
                                 validateOrder(id);
-                                usine.produireAsync(commande)
+                                usine.ajouterCommandeMutualisee(id,commande)
                                         .whenComplete((lunettes, error) -> {
                                             if (error != null) {
                                                 Throwable cause = error.getCause() != null ? error.getCause() : error;

@@ -12,11 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import protocol.CommandeListener;
-import protocol.CommandeSerializer;
-import protocol.LivraisonSerializer;
-
-import java.util.List;
-import java.util.UUID;
 
 public class VerifierController implements CommandeListener {
 
@@ -48,6 +43,7 @@ public class VerifierController implements CommandeListener {
 
     public void onChecked(String uuid, String typeLunette) {
         Platform.runLater(() -> {
+
             lblResultat.setText(typeLunette);
         });
     }
