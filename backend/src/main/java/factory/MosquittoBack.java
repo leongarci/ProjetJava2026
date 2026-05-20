@@ -7,13 +7,13 @@ import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import bernard_flou.Fabricateur;
 import protocol.CommandeSerializer;
 import protocol.LivraisonSerializer;
 import protocol.Mosquitto;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class MosquittoBack extends Mosquitto {
 
@@ -36,7 +36,7 @@ public class MosquittoBack extends Mosquitto {
                                 Map<Fabricateur.TypeLunette, Integer> commande = CommandeSerializer.deserialize(payload);
                                 usine.valider(commande);
                                 validateOrder(id);
-                                usine.ajouterCommandeMutualisee(id,commande)
+                                usine.ajouterCommandeMutualisee(id, commande)
                                         .whenComplete((lunettes, error) -> {
                                             if (error != null) {
                                                 Throwable cause = error.getCause() != null ? error.getCause() : error;
@@ -45,16 +45,10 @@ public class MosquittoBack extends Mosquitto {
                                                 String serials = LivraisonSerializer.serialize(lunettes);
                                                 deliverOrder(id, serials);
                                             }
-                                            try {
-                                                mqttClient.unsubscribe(topic);
-                                            } catch (MqttException ex) {
-                                                logger.error("Failed to unsubscribe from topic {}", topic, ex);
-                                            }
                                         });
 
                             } catch (IllegalArgumentException e) {
                                 cancelOrder(id, e.getMessage());
-                                mqttClient.unsubscribe(topic);
                             }
 
                         } else if (topic.equals(topicSerials + id + "/check")) {
@@ -63,7 +57,6 @@ public class MosquittoBack extends Mosquitto {
                                 serial = "invalid";
                             }
                             serialsInfos(id, serial);
-                            mqttClient.unsubscribe(topic);
                         }
                     }
 
@@ -84,10 +77,10 @@ public class MosquittoBack extends Mosquitto {
             }
 
             logger.info("Press Enter to disconnect");
-             System.in.read();
-             mqttClient.disconnect();
-             mqttClient.close();
-             usine.shutdown();
+            System.in.read();
+            mqttClient.disconnect();
+            mqttClient.close();
+            usine.shutdown();
 
         } catch (MqttException e) {
             logger.error("MqttException in MosquittoBack constructor", e);
@@ -153,4 +146,4 @@ public class MosquittoBack extends Mosquitto {
             logger.error("Failed to publish serialsInfos for {}", uuid, e);
         }
     }
- }
+}
