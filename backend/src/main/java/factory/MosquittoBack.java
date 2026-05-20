@@ -12,10 +12,13 @@ import bernard_flou.Fabricateur;
 import protocol.CommandeSerializer;
 import protocol.LivraisonSerializer;
 import protocol.Mosquitto;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MosquittoBack extends Mosquitto {
 
     private final Usine usine;
+    private static final Logger logger = LoggerFactory.getLogger(MosquittoBack.class);
 
     public MosquittoBack(String client, Usine usine) {
         this.usine = usine;
@@ -45,7 +48,7 @@ public class MosquittoBack extends Mosquitto {
                                             try {
                                                 mqttClient.unsubscribe(topic);
                                             } catch (MqttException ex) {
-                                                ex.printStackTrace();
+                                                logger.error("Failed to unsubscribe from topic {}", topic, ex);
                                             }
                                         });
 
@@ -66,12 +69,12 @@ public class MosquittoBack extends Mosquitto {
 
                     @Override
                     public void connectionLost(Throwable cause) {
-                        System.out.println("Connection is lost: " + cause.getMessage());
+                        logger.warn("Connection lost: {}", cause == null ? "unknown cause" : cause.getMessage(), cause);
                     }
 
                     @Override
                     public void deliveryComplete(IMqttDeliveryToken token) {
-                        System.out.println("Message publish is complete: " + token.isComplete());
+                        logger.debug("Message publish complete: {}", token.isComplete());
                     }
                 });
 
@@ -80,15 +83,16 @@ public class MosquittoBack extends Mosquitto {
 
             }
 
-            System.out.println("Press Enter to disconnect");
-            System.in.read();
-            mqttClient.disconnect();
-            mqttClient.close();
-            usine.shutdown();
+            logger.info("Press Enter to disconnect");
+             System.in.read();
+             mqttClient.disconnect();
+             mqttClient.close();
+             usine.shutdown();
 
         } catch (MqttException e) {
-            e.printStackTrace();
+            logger.error("MqttException in MosquittoBack constructor", e);
         } catch (IOException e) {
+            logger.error("IOException while waiting for disconnect input", e);
             throw new RuntimeException(e);
         }
 
@@ -101,7 +105,7 @@ public class MosquittoBack extends Mosquitto {
         try {
             this.mqttClient.publish(topic, emptyMessage);
         } catch (MqttException e) {
-            e.printStackTrace();
+            logger.error("Failed to publish validateOrder for {}", uuid, e);
         }
     }
 
@@ -112,7 +116,7 @@ public class MosquittoBack extends Mosquitto {
         try {
             this.mqttClient.publish(topic, cancellation);
         } catch (MqttException e) {
-            e.printStackTrace();
+            logger.error("Failed to publish cancelOrder for {}: {}", uuid, reason, e);
         }
     }
 
@@ -123,7 +127,7 @@ public class MosquittoBack extends Mosquitto {
         try {
             this.mqttClient.publish(topic, delivery);
         } catch (MqttException e) {
-            e.printStackTrace();
+            logger.error("Failed to publish deliverOrder for {}", uuid, e);
         }
 
     }
@@ -135,7 +139,7 @@ public class MosquittoBack extends Mosquitto {
         try {
             this.mqttClient.publish(topic, errorMessage);
         } catch (MqttException e) {
-            e.printStackTrace();
+            logger.error("Failed to publish errorOrder for {}", uuid, e);
         }
     }
 
@@ -146,7 +150,7 @@ public class MosquittoBack extends Mosquitto {
         try {
             this.mqttClient.publish(topic, serialsMessage);
         } catch (MqttException e) {
-            e.printStackTrace();
+            logger.error("Failed to publish serialsInfos for {}", uuid, e);
         }
     }
-}
+ }

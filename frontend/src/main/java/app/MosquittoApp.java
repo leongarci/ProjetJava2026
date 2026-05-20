@@ -9,8 +9,12 @@ import protocol.CommandeListener;
 import protocol.Mosquitto;
 
 import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MosquittoApp extends Mosquitto {
+
+    private static final Logger logger = LoggerFactory.getLogger(MosquittoApp.class);
 
     private CommandeListener listener = new CommandeListener() {
         public void onValidated(String uuid) {
@@ -34,53 +38,51 @@ public class MosquittoApp extends Mosquitto {
                 mqttClient.setCallback(new MqttCallback() {
                     @Override
                     public void messageArrived(String topic, MqttMessage message) throws Exception {
-                        System.out.println("[APP] Message reçu sur : " + topic);
-                        String payload = new String(message.getPayload());
-                        String responseTopic = topic;
-                        if (responseTopic != null) {
-                            String id = topic.split("/")[1];
-                            if (topic.startsWith(topicNewOrder + id + "/")) {
-                                String status = topic.substring(topic.lastIndexOf("/") + 1);
-                                switch (status) {
-                                    case "validated" ->
-                                        listener.onValidated(id);
-                                    case "cancelled" -> {
-                                        listener.onCancelled(id, payload);
-                                        mqttClient.unsubscribe(topicNewOrder + id + "/#");
-                                    }
-                                    case "delivery" -> {
-                                        listener.onDelivery(id, payload);
-                                        mqttClient.unsubscribe(topicNewOrder + id + "/#");
-                                    }
-                                    case "error" -> {
-                                        listener.onError(id, payload);
-                                        mqttClient.unsubscribe(topicNewOrder + id + "/#");
-                                    }
-                                }
-                            } else if (topic.startsWith(topicSerials)) {
-                                listener.onChecked(id,payload);
-                                mqttClient.unsubscribe(topic);
-                            }
-                        }
+                        logger.debug("[APP] Message received on: {}", topic);
+                         String payload = new String(message.getPayload());
+                         String responseTopic = topic;
+                         if (responseTopic != null) {
+                             String id = topic.split("/")[1];
+                             if (topic.startsWith(topicNewOrder + id + "/")) {
+                                 String status = topic.substring(topic.lastIndexOf("/") + 1);
+                                 switch (status) {
+                                     case "validated" ->
+                                         listener.onValidated(id);
+                                     case "cancelled" -> {
+                                         listener.onCancelled(id, payload);
+                                         mqttClient.unsubscribe(topicNewOrder + id + "/#");
+                                     }
+                                     case "delivery" -> {
+                                         listener.onDelivery(id, payload);
+                                         mqttClient.unsubscribe(topicNewOrder + id + "/#");
+                                     }
+                                     case "error" -> {
+                                         listener.onError(id, payload);
+                                         mqttClient.unsubscribe(topicNewOrder + id + "/#");
+                                     }
+                                 }
+                             } else if (topic.startsWith(topicSerials)) {
+                                 listener.onChecked(id,payload);
+                                 mqttClient.unsubscribe(topic);
+                             }
+                         }
                     }
 
                     @Override
                     public void connectionLost(Throwable cause) {
-                        System.out.println("Connection is lost: " + cause.getMessage());
+                        logger.warn("Connection lost: {}", cause == null ? "unknown cause" : cause.getMessage(), cause);
                     }
 
-                    @Override
-                    public void deliveryComplete(IMqttDeliveryToken token) {
-                        System.out.println("Message publish is complete: " + token.isComplete());
-                    }
-                });
-            }
-
-        } catch (MqttException e) {
-            System.err.println("[APP] MqttException : " + e.getMessage());
-            e.printStackTrace();
-        }
-
+                     @Override
+                     public void deliveryComplete(IMqttDeliveryToken token) {
+                         logger.debug("Message publish complete: {}", token.isComplete());
+                     }
+                 });
+             }
+ 
+         } catch (MqttException e) {
+             logger.error("[APP] MqttException : {}", e.getMessage(), e);
+         }
     }
 
     public void disconnect() {
@@ -90,8 +92,7 @@ public class MosquittoApp extends Mosquitto {
             }
             mqttClient.close();
         } catch (MqttException e) {
-            System.err.println("[APP] MqttException during disconnect: " + e.getMessage());
-            e.printStackTrace();
+            logger.error("[APP] MqttException during disconnect: {}", e.getMessage(), e);
         }
     }
 
@@ -103,7 +104,7 @@ public class MosquittoApp extends Mosquitto {
             this.mqttClient.subscribe(orderTopic + "/#", this.qos);
             this.mqttClient.publish(orderTopic, newOrder);
         } catch (MqttException e) {
-            e.printStackTrace();
+            logger.error("Failed to publish order {}", orderTopic, e);
         }
     }
 
@@ -115,7 +116,7 @@ public class MosquittoApp extends Mosquitto {
             this.mqttClient.subscribe(topicSerials + code, this.qos);
             this.mqttClient.publish(topic, ask);
         } catch (MqttException e) {
-            e.printStackTrace();
+            logger.error("Failed to ask serials for {}", code, e);
         }
     }
 

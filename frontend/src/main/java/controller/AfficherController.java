@@ -16,10 +16,13 @@ import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import protocol.CommandeListener;
 import protocol.LivraisonSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AfficherController implements CommandeListener {
 
     private MosquittoApp mosquittoApp;
+    private static final Logger logger = LoggerFactory.getLogger(AfficherController.class);
 
     @FXML
     private Button btnRetour;
@@ -64,7 +67,7 @@ public class AfficherController implements CommandeListener {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Failed to return to Accueil view", e);
         }
     }
 }

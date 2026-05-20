@@ -12,10 +12,13 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import protocol.CommandeListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class VerifierController implements CommandeListener {
 
     private MosquittoApp mosquittoApp;
+    private static final Logger logger = LoggerFactory.getLogger(VerifierController.class);
 
     @FXML
     private TextField txtNumeroAVerifier;
@@ -59,7 +62,7 @@ public class VerifierController implements CommandeListener {
             stage.setScene(new Scene(root));
             stage.show();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Failed to return to Accueil view", e);
         }
     }
 }

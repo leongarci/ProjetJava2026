@@ -8,6 +8,8 @@ import java.util.Properties;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class Mosquitto {
 
@@ -15,6 +17,7 @@ public abstract class Mosquitto {
     protected final String topicSerials = "serials/";
     protected int qos;
     protected MqttClient mqttClient;
+    private static final Logger logger = LoggerFactory.getLogger(Mosquitto.class);
 
     protected void initClient(String client) throws MqttException {
         try (InputStream input = new FileInputStream(".properties")) {
@@ -24,7 +27,7 @@ public abstract class Mosquitto {
             this.mqttClient.connect();
             this.qos = 1;
         } catch (IOException ex) {
-            ex.printStackTrace();
+            logger.error("Failed to initialize MQTT client", ex);
 
         }
     }

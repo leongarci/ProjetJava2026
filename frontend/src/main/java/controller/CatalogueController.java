@@ -20,6 +20,8 @@ import javafx.scene.control.Spinner;
 import javafx.stage.Stage;
 import protocol.CommandeListener;
 import protocol.CommandeSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CatalogueController implements CommandeListener {
 
@@ -38,6 +40,7 @@ public class CatalogueController implements CommandeListener {
 
     private Stage stage;
     private MosquittoApp mosquittoApp;
+    private static final Logger logger = LoggerFactory.getLogger(CatalogueController.class);
 
     @FXML
     private void onCommanderClique(ActionEvent event) throws IOException {
@@ -50,7 +53,7 @@ public class CatalogueController implements CommandeListener {
         quantites.put(Fabricateur.TypeLunette.LE_CHAT, spinLeChat.getValue());
         quantites.put(Fabricateur.TypeLunette.BANANA, spinBanana.getValue());
 
-        System.out.println("Commande passée : " + quantites);
+        logger.info("Commande passée : {}", quantites);
 
         btnCommande.setDisable(true);
         labelStatus.setText("Commande en cours...");
@@ -70,7 +73,7 @@ public class CatalogueController implements CommandeListener {
                 stage.setScene(new Scene(root));
                 stage.show();
             } catch (IOException e) {
-                e.printStackTrace();
+                logger.error("Failed to load Afficher view", e);
             }
 
         });
