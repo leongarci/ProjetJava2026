@@ -80,9 +80,11 @@ public class CatalogueController implements CommandeListener {
 
     public void onCancelled(String uuid, String reason) {
         Platform.runLater(() -> {
+            if (labelStatus != null){
             labelStatus.setText("Commande annulée : " + reason);
             labelStatus.setStyle("-fx-text-fill: red;");
             btnCommande.setDisable(false);
+            }
         });
     }
 

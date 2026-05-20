@@ -11,9 +11,9 @@ class MosquittoProtocolTest {
     @Test
     @DisplayName("Le topic 'orders/' doit être défini comme constante")
     void topicNewOrder_estBienDefini() throws Exception {
-        var field = Mosquitto.class.getDeclaredField("topicNewOrder");
+        var field = protocol.Mosquitto.class.getDeclaredField("topicNewOrder");
         field.setAccessible(true);
-        Mosquitto m = new Mosquitto() {};
+        protocol.Mosquitto m = new protocol.Mosquitto() {};
         String value = (String) field.get(m);
         assertNotNull(value);
         assertFalse(value.isBlank());
@@ -23,9 +23,9 @@ class MosquittoProtocolTest {
     @Test
     @DisplayName("Le topic 'serials/' doit être défini comme constante")
     void topicSerials_estBienDefini() throws Exception {
-        var field = Mosquitto.class.getDeclaredField("topicSerials");
+        var field = protocol.Mosquitto.class.getDeclaredField("topicSerials");
         field.setAccessible(true);
-        Mosquitto m = new Mosquitto() {};
+        protocol.Mosquitto m = new protocol.Mosquitto() {};
         String value = (String) field.get(m);
         assertNotNull(value);
         assertFalse(value.isBlank());
@@ -34,9 +34,9 @@ class MosquittoProtocolTest {
     @Test
     @DisplayName("Le QoS doit être compris entre 0 et 2 inclus")
     void qos_valeurValide() throws Exception {
-        var field = Mosquitto.class.getDeclaredField("qos");
+        var field = protocol.Mosquitto.class.getDeclaredField("qos");
         field.setAccessible(true);
-        Mosquitto m = new Mosquitto() {};
+        protocol.Mosquitto m = new protocol.Mosquitto() {};
         int qos = (int) field.get(m);
         assertTrue(qos >= 0 && qos <= 2, "QoS doit être 0, 1 ou 2 — valeur actuelle : " + qos);
     }
@@ -44,9 +44,9 @@ class MosquittoProtocolTest {
     @Test
     @DisplayName("topicNewOrder + uuid doit former un topic valide")
     void topicNewOrder_concatenationUuid_valide() throws Exception {
-        var field = Mosquitto.class.getDeclaredField("topicNewOrder");
+        var field = protocol.Mosquitto.class.getDeclaredField("topicNewOrder");
         field.setAccessible(true);
-        Mosquitto m = new Mosquitto() {};
+        protocol.Mosquitto m = new protocol.Mosquitto() {};
         String base = (String) field.get(m);
         String uuid = "test-uuid-123";
         String full = base + uuid;
@@ -57,9 +57,9 @@ class MosquittoProtocolTest {
     @Test
     @DisplayName("topicSerials + uuid + '/check' doit former un topic de vérification valide")
     void topicSerials_checkTopic_valide() throws Exception {
-        var field = Mosquitto.class.getDeclaredField("topicSerials");
+        var field = protocol.Mosquitto.class.getDeclaredField("topicSerials");
         field.setAccessible(true);
-        Mosquitto m = new Mosquitto() {};
+        protocol.Mosquitto m = new protocol.Mosquitto() {};
         String base = (String) field.get(m);
         String uuid = "order-uuid";
         String checkTopic = base + uuid + "/check";

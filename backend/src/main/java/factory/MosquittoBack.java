@@ -84,6 +84,7 @@ public class MosquittoBack extends Mosquitto {
             System.in.read();
             mqttClient.disconnect();
             mqttClient.close();
+            usine.shutdown();
 
         } catch (MqttException e) {
             e.printStackTrace();
