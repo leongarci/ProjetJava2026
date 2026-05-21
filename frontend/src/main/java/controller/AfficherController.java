@@ -70,4 +70,13 @@ public class AfficherController implements CommandeListener {
             logger.error("Failed to return to Accueil view", e);
         }
     }
+
+    @Override
+    public void onError(String uuid, String error) {
+        Platform.runLater(() -> {
+            lblStatut.setText("Erreur de fabrication : " + error);
+            lblStatut.setStyle("-fx-text-fill: red;");
+            btnRetour.setDisable(false);
+        });
+    }
 }

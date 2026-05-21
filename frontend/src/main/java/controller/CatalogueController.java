@@ -92,7 +92,13 @@ public class CatalogueController implements CommandeListener {
     }
 
     ;
+    @Override
     public void onError(String uuid, String error) {
+        Platform.runLater(() -> {
+            labelStatus.setText("Erreur : " + error);
+            labelStatus.setStyle("-fx-text-fill: red;");
+            btnCommande.setDisable(false);
+        });
     }
 
     ;

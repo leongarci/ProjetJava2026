@@ -65,4 +65,9 @@ public class VerifierController implements CommandeListener {
             logger.error("Failed to return to Accueil view", e);
         }
     }
+
+    @Override
+    public void onError(String uuid, String error) {
+        logger.warn("onError reçu dans VerifierController pour {} : {}", uuid, error);
+    }
 }

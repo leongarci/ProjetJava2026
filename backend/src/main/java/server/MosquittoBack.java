@@ -54,6 +54,7 @@ public class MosquittoBack extends Mosquitto {
 
                         } else if (topic.equals(topicSerials + id + "/check")) {
                             String serial = String.valueOf(usine.getSerialsProduits().get(id));
+                            System.out.println("serials produits: " + serial.getClass());
                             if (serial.equals("null")) {
                                 serial = "invalid";
                             }

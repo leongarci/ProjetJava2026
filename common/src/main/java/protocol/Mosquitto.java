@@ -15,6 +15,7 @@ public abstract class Mosquitto {
 
     protected final String topicNewOrder = "orders/";
     protected final String topicSerials = "serials/";
+
     protected int qos;
     protected MqttClient mqttClient;
     private static final Logger logger = LoggerFactory.getLogger(Mosquitto.class);
