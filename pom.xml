@@ -13,7 +13,6 @@
         <module>common</module>
         <module>backend</module>
         <module>frontend</module>
-        <module>factory</module>
     </modules>
 
     <properties>
