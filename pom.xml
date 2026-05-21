@@ -81,6 +81,11 @@
 
     <repositories>
         <repository>
+            <id>github-lunettes</id>
+            <name>Mon dépôt Lunettes Factory</name>
+            <url>https://maven.pkg.github.com/KTelineSama/lunettes-factory</url>
+        </repository>
+        <repository>
             <id>github</id>
             <name>GitHub le-prof-de-raizo Apache Maven Packages</name>
             <url>https://maven.pkg.github.com/le-prof-de-raizo/repo-maven</url>

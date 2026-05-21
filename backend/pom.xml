@@ -29,7 +29,21 @@
             <artifactId>org.eclipse.paho.client.mqttv3</artifactId>
             <version>1.2.5</version>
         </dependency>
+        <dependency>
+            <groupId>com.lunettes-factory</groupId>
+            <artifactId>lunettes-factory</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
+
+    <repositories>
+        <repository>
+            <id>github-lunettes</id>
+            <name>Mon dépôt Lunettes Factory</name>
+            <url>https://maven.pkg.github.com/ktelinesama/lunettes-factory</url>
+        </repository>
+    </repositories>
+
 
     <build>
         <plugins>
