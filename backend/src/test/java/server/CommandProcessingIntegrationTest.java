@@ -1,7 +1,4 @@
-package factory;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+package server;
 
 import java.util.HashMap;
 import java.util.List;
@@ -9,11 +6,23 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import bernard_flou.Fabricateur;
+import factory.Usine;
 import protocol.CommandeSerializer;
 import protocol.LivraisonSerializer;
 
@@ -30,19 +39,19 @@ class CommandProcessingIntegrationTest {
 
         when(fabricateurMock.fabriquer(Fabricateur.TypeLunette.CHATGPT))
                 .thenAnswer(inv -> createMockLunette(Fabricateur.TypeLunette.CHATGPT,
-                        "CHATGPT-S" + counter.getAndIncrement()));
+                "CHATGPT-S" + counter.getAndIncrement()));
 
         when(fabricateurMock.fabriquer(Fabricateur.TypeLunette.BANANA))
                 .thenAnswer(inv -> createMockLunette(Fabricateur.TypeLunette.BANANA,
-                        "BANANA-S" + counter.getAndIncrement()));
+                "BANANA-S" + counter.getAndIncrement()));
 
         when(fabricateurMock.fabriquer(Fabricateur.TypeLunette.CLAUDE))
                 .thenAnswer(inv -> createMockLunette(Fabricateur.TypeLunette.CLAUDE,
-                        "CLAUDE-S" + counter.getAndIncrement()));
+                "CLAUDE-S" + counter.getAndIncrement()));
 
         when(fabricateurMock.fabriquer(Fabricateur.TypeLunette.LE_CHAT))
                 .thenAnswer(inv -> createMockLunette(Fabricateur.TypeLunette.LE_CHAT,
-                        "LECHAT-S" + counter.getAndIncrement()));
+                "LECHAT-S" + counter.getAndIncrement()));
 
         usine = new Usine(fabricateurMock);
     }
@@ -116,8 +125,8 @@ class CommandProcessingIntegrationTest {
     void invalidSerializedCommand_shouldFailDeserialization() {
         String invalidPayload = "INVALID:DATA";
 
-        assertThrows(IllegalArgumentException.class, () ->
-                CommandeSerializer.deserialize(invalidPayload));
+        assertThrows(IllegalArgumentException.class, ()
+                -> CommandeSerializer.deserialize(invalidPayload));
     }
 
     @Test
@@ -147,10 +156,10 @@ class CommandProcessingIntegrationTest {
         Map<String, Fabricateur.TypeLunette> trackedSerials = usine.getSerialsProduits();
         assertEquals(5, trackedSerials.size());
 
-        trackedSerials.forEach((serial, type) ->
-                assertTrue(
-                        type == Fabricateur.TypeLunette.CHATGPT ||
-                                type == Fabricateur.TypeLunette.BANANA,
+        trackedSerials.forEach((serial, type)
+                -> assertTrue(
+                        type == Fabricateur.TypeLunette.CHATGPT
+                        || type == Fabricateur.TypeLunette.BANANA,
                         "Serial should be for CHATGPT or BANANA"
                 ));
     }

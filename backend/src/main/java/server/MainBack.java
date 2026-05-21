@@ -1,6 +1,7 @@
-package factory;
+package server;
 
 import bernard_flou.Fabricateur;
+import factory.Usine;
 
 public class MainBack {
 

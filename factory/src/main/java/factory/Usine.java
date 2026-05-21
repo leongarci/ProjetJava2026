@@ -1,9 +1,19 @@
 package factory;
 
 import static java.lang.Math.min;
-
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -85,13 +95,15 @@ public class Usine {
     }
 
     private void traiterCommandesMutualisees(List<CommandeEnAttente> commandes) {
-        if (commandes.isEmpty()) return;
+        if (commandes.isEmpty()) {
+            return;
+        }
         logger.info("Traitement de {} commande(s) mutualisée(s)", commandes.size());
         try {
             Map<Fabricateur.TypeLunette, Integer> commandeMutualisee = new HashMap<>();
             for (CommandeEnAttente cmd : commandes) {
-                cmd.commande().forEach((type, qte) ->
-                        commandeMutualisee.merge(type, qte, Integer::sum)
+                cmd.commande().forEach((type, qte)
+                        -> commandeMutualisee.merge(type, qte, Integer::sum)
                 );
             }
             List<Fabricateur.Lunette> lunettesProduites = produire(commandeMutualisee);
@@ -168,5 +180,7 @@ public class Usine {
             String uuid,
             Map<Fabricateur.TypeLunette, Integer> commande,
             CompletableFuture<List<Fabricateur.Lunette>> future
-    ) {}
+    ) {
+
+    }
 }

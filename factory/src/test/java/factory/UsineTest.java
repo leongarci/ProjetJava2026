@@ -1,20 +1,31 @@
 package factory;
 
-import bernard_flou.Fabricateur;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
-
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import org.junit.jupiter.api.AfterEach;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import bernard_flou.Fabricateur;
 
 @DisplayName("Tests d'Usine Factory")
 class UsineTest {
@@ -50,7 +61,6 @@ class UsineTest {
         usine.shutdown();
         serialCounter = 0;
     }
-
 
     @Test
     @DisplayName("Doit lever une exception pour une commande vide")
@@ -92,7 +102,6 @@ class UsineTest {
                 Fabricateur.TypeLunette.CHATGPT, 9
         )));
     }
-
 
     @Test
     @DisplayName("Doit produire la bonne quantité de CHATGPT")
@@ -173,7 +182,6 @@ class UsineTest {
         assertEquals(9, result.size());
     }
 
-
     @Test
     @DisplayName("Doit ajouter une commande mutualisée et retourner CompletableFuture")
     void ajouterCommandeMutualisee_commandeValide_retourneCompletableFuture() {
@@ -211,7 +219,6 @@ class UsineTest {
         assertNotNull(future1);
         assertNotNull(future2);
     }
-
 
     @Test
     @DisplayName("Doit retourner une map vide quand pas de production")

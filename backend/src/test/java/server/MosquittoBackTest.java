@@ -1,16 +1,20 @@
-package factory;
-
-import bernard_flou.Fabricateur;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import protocol.CommandeSerializer;
+package server;
 
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+import bernard_flou.Fabricateur;
+import factory.Usine;
+import protocol.CommandeSerializer;
 
 @DisplayName("Suite de tests MosquittoBack Handler")
 class MosquittoBackTest {
@@ -38,8 +42,8 @@ class MosquittoBackTest {
     @Test
     @DisplayName("Un payload invalide lève IllegalArgumentException lors de la validation")
     void payload_invalide_leveExceptionALaValidation() {
-        Map<Fabricateur.TypeLunette, Integer> commandeInvalide =
-                Map.of(Fabricateur.TypeLunette.CHATGPT, -1);
+        Map<Fabricateur.TypeLunette, Integer> commandeInvalide
+                = Map.of(Fabricateur.TypeLunette.CHATGPT, -1);
 
         doThrow(new IllegalArgumentException("Quantité invalide"))
                 .when(usineMock).valider(commandeInvalide);

@@ -1,4 +1,4 @@
-package factory;
+package server;
 
 import java.io.IOException;
 import java.util.Map;
@@ -10,6 +10,7 @@ import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import factory.Usine;
 import bernard_flou.Fabricateur;
 import protocol.CommandeSerializer;
 import protocol.LivraisonSerializer;

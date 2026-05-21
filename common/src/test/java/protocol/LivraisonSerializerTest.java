@@ -1,15 +1,15 @@
 package protocol;
 
-import bernard_flou.Fabricateur;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.spy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import bernard_flou.Fabricateur;
 
 @DisplayName("Suite de tests LivraisonSerializer")
 class LivraisonSerializerTest {
@@ -57,8 +57,8 @@ class LivraisonSerializerTest {
     void serialize_lunettes_formatCorrect() {
         List<Fabricateur.Lunette> lunettes = new ArrayList<>();
 
-        Fabricateur.Lunette l1 = spy(new Fabricateur.Lunette(Fabricateur.TypeLunette.CHATGPT, "S001"));
-        Fabricateur.Lunette l2 = spy(new Fabricateur.Lunette(Fabricateur.TypeLunette.CLAUDE, "S002"));
+        Fabricateur.Lunette l1 = (new Fabricateur.Lunette(Fabricateur.TypeLunette.CHATGPT, "S001"));
+        Fabricateur.Lunette l2 = (new Fabricateur.Lunette(Fabricateur.TypeLunette.CLAUDE, "S002"));
 
         lunettes.add(l1);
         lunettes.add(l2);
@@ -100,7 +100,7 @@ class LivraisonSerializerTest {
         List<Fabricateur.Lunette> lunettes = new ArrayList<>();
 
         for (int i = 0; i < 3; i++) {
-            Fabricateur.Lunette l = spy(new Fabricateur.Lunette(Fabricateur.TypeLunette.BANANA, "BAN" + i));
+            Fabricateur.Lunette l = (new Fabricateur.Lunette(Fabricateur.TypeLunette.BANANA, "BAN" + i));
             lunettes.add(l);
         }
 
