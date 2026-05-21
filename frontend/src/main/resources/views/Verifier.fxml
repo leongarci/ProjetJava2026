@@ -3,22 +3,50 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17"
-    xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.VerifierController">
-    <children>
-        <VBox alignment="CENTER" layoutX="150.0" layoutY="50.0" spacing="15.0">
-            <children>
-                <Label text="Vérification de Lunettes" style="-fx-font-size: 18px;" />
-                <HBox spacing="10.0">
-                    <children>
-                        <Label text="N° de série :" />
-                        <TextField fx:id="txtNumeroAVerifier" promptText="Ex: SN-12345" />
-                    </children>
-                </HBox>
-                <Button text="Vérifier la validité" onAction="#onBoutonVerifierClick" />
-                <Button fx:id="btnRetour" text="Retour à l'accueil" onAction="#onRetourClique"/>
-                <Label fx:id="lblResultat" text="..." style="-fx-text-fill: blue;" />
-            </children>
+<VBox xmlns="http://javafx.com/javafx/17"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="controller.VerifierController"
+      stylesheets="/styles/styles.css"
+      prefWidth="580" prefHeight="420" spacing="0"
+      style="-fx-background-color: #f7f6f2;">
+
+    <HBox styleClass="top-bar" alignment="CENTER_LEFT" spacing="10">
+        <Label text="🕶" style="-fx-font-size:18px;"/>
+        <Label text="La Fabrique de Lunettes" styleClass="topbar-brand"/>
+        <Region HBox.hgrow="ALWAYS"/>
+        <Label text="VÉRIFICATION" styleClass="topbar-tag"/>
+    </HBox>
+
+    <VBox VBox.vgrow="ALWAYS" alignment="CENTER" spacing="20"
+          style="-fx-padding: 0 60 0 60;">
+
+        <Label text="🔍" style="-fx-font-size: 40px;"/>
+        <Label text="Vérifier un numéro de série"
+               styleClass="titre-page" textAlignment="CENTER"/>
+        <Label text="Entrez le numéro de série de votre commande pour consulter son statut."
+               styleClass="sous-titre" wrapText="true"
+               maxWidth="380" textAlignment="CENTER"/>
+
+        <VBox spacing="6" maxWidth="360" style="-fx-padding: 10 0 0 0;">
+            <Label text="Numéro de série" styleClass="field-label"/>
+            <TextField fx:id="txtNumeroSerie"
+                       promptText="ex: a1b2c3d4-e5f6-…"
+                       styleClass="text-input"
+                       prefHeight="42"/>
         </VBox>
-    </children>
-</AnchorPane>
+
+        <Label fx:id="lblResultat" text="" styleClass="result-label"
+               wrapText="true" maxWidth="380" textAlignment="CENTER"/>
+    </VBox>
+
+    <HBox styleClass="bottom-bar" alignment="CENTER_RIGHT" spacing="10"
+          style="-fx-padding: 14 28 14 28;">
+        <Button text="← Retour" styleClass="btn-ghost"
+                prefHeight="40" onAction="#onRetourClique"/>
+        <Button fx:id="btnVerifier"
+                text="Vérifier"
+                styleClass="btn-primary"
+                prefHeight="40"
+                onAction="#onBoutonVerifierClick"/>
+    </HBox>
+</VBox>

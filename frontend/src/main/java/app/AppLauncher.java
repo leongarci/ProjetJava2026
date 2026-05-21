@@ -4,6 +4,7 @@ import controller.AccueilController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 public class AppLauncher extends Application {
@@ -14,7 +15,6 @@ public class AppLauncher extends Application {
         MosquittoApp mosquittoApp = new MosquittoApp("app-client");
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/views/Accueil.fxml"));
-
         Scene scene = new Scene(fxmlLoader.load(), 800, 600);
         AccueilController controller = fxmlLoader.getController();
         controller.setMosquittoApp(mosquittoApp);
