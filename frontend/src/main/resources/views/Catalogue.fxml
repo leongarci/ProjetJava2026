@@ -49,7 +49,7 @@
             </VBox>
         </VBox>
 
-²        <VBox styleClass="product-card" prefWidth="194">
+        <VBox styleClass="product-card" prefWidth="194">
             <ImageView fx:id="imgClaude" fitWidth="194" fitHeight="138" preserveRatio="false"
                        styleClass="product-image"/>
             <VBox styleClass="card-body" spacing="5">
