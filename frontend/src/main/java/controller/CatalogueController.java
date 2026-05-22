@@ -84,7 +84,9 @@ public class CatalogueController implements CommandeListener {
 
     @FXML
     public void initialize() {
-        // Charger le JSON
+        /**
+         * Charge les produits depuis le fichier JSON situé dans le classpath. Pour chaque produit, il tente de charger l'image correspondante (nommée {id}.png) et met à jour les labels et images de l'interface.
+         */
         try (var stream = getClass().getResourceAsStream("/assets/products.json")) {
             if (stream == null) {
                 logger.warn("products.json introuvable");
@@ -141,6 +143,9 @@ public class CatalogueController implements CommandeListener {
 
     @FXML
     private void onCommanderClique(ActionEvent event) throws IOException {
+        /**
+         * Gère la validation de la commande. Récupère les quantités sélectionnées pour chaque type de lunette, vérifie qu'au moins une paire a été commandée, puis envoie la commande au backend via MosquittoApp. Affiche un message de statut pendant le traitement de la commande et désactive le bouton pour éviter les commandes multiples.
+         */
         this.stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
 
         Map<Fabricateur.TypeLunette, Integer> quantites = new HashMap<>();
@@ -165,6 +170,9 @@ public class CatalogueController implements CommandeListener {
 
     @FXML
     private void onAnnulerClique(ActionEvent event) {
+        /**
+         * Permet d'annuler la commande en cours. Envoie une requête d'annulation au backend via MosquittoApp, puis retourne à la vue d'accueil. Affiche un message de statut en cas d'échec de l'annulation.
+         */
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/views/Accueil.fxml"));
@@ -179,6 +187,9 @@ public class CatalogueController implements CommandeListener {
     }
 
     public void onValidated(String uuid) {
+        /**
+         * Gère la validation de la commande par le backend. Affiche un message de statut indiquant que la commande a été validée et que la fabrication est en cours, puis charge la vue Afficher.fxml pour afficher les détails de la commande.
+         */
         Platform.runLater(() -> {
             try {
                 FXMLLoader loader = new FXMLLoader(
@@ -195,6 +206,9 @@ public class CatalogueController implements CommandeListener {
     }
 
     public void onCancelled(String uuid, String reason) {
+        /**
+         * Gère l'annulation de la commande par le backend. Affiche un message de statut indiquant que la commande a été annulée, avec la raison fournie par le backend, et réactive le bouton de commande pour permettre à l'utilisateur de passer une nouvelle commande.
+         */
         Platform.runLater(() -> {
             if (labelStatus != null) {
                 labelStatus.setText("Commande annulee : " + reason);

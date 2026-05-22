@@ -2,14 +2,31 @@
 
 1. Téléchargez les deux fichiers .jar disponibles sur le dépôt GitHub (https://github.com/leongarci/ProjetJava2026)
 
-_Si vous avez déjà Mosquitto installé sur votre PC, vous pouvez passer à la 5ème étape_
+## Prérequis
 
-2. Téléchargez également de fichier docker-compose.yml disponible sur ce même dépôt
+- Java 17+
+- Docker
 
-3. Assurez vous que Docker est bien installé sur votre PC, et assurez vous que le service est lancé
+## Lancement
 
-4. Depuis un terminal, placez vous à l'emplacement où vous avez téléchargé le fichier .yml, et lancez la commande `docker-compose up`
+1. Téléchargez `backend-1.0-SNAPSHOT.jar` et `frontend-1.0-SNAPSHOT.jar` depuis la page GitHub du projet.
 
-5. Lancez tout d'abord le fichier _backend.jar_ avec la commande `java -jar backend.jar` pour démarrer l'usine
+2. Démarrez le broker MQTT Mosquitto.
 
-6. Lancez ensuite le fichier _frontend.jar_ avec la commande `java -jar frontend.jar'` pour démarrer une interface client
+> Si Mosquitto est déjà installé sur votre machine, passez directement à l'étape suivante.
+
+3. Démarrez le backend :
+```bash
+java -jar backend-1.0-SNAPSHOT.jar
+```
+
+4. Démarrez le frontend :
+```bash
+java -jar frontend-1.0-SNAPSHOT.jar
+```
+
+> Vous pouvez lancer plusieurs instances du frontend pour simuler plusieurs clients.
+
+```properties
+broker=tcp://localhost:1883
+```

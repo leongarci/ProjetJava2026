@@ -28,6 +28,9 @@ public class VerifierController implements CommandeListener {
 
     @FXML
     private void onBoutonVerifierClick() {
+        /**
+         * Récupère le numéro de série entré par l'utilisateur, vérifie qu'il n'est pas vide, puis demande à MosquittoApp d'analyser ce numéro. Affiche un message d'attente pendant l'analyse.
+         */
         String code = txtNumeroAVerifier.getText();
 
         if (code == null || code.isEmpty()) {
@@ -53,6 +56,9 @@ public class VerifierController implements CommandeListener {
 
     @FXML
     private void onRetourClique(ActionEvent event) {
+        /**
+         * Retourne à la vue Accueil.fxml en chargeant la vue et en passant l'instance de MosquittoApp au controller de AccueilController au moment où on appuie sur le bouton de retour. Affiche un message d'erreur dans les logs en cas d'échec du chargement de la vue ou du passage de l'instance de MosquittoApp.
+         */
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Accueil.fxml"));
             Parent root = loader.load();

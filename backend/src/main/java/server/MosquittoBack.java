@@ -30,6 +30,17 @@ public class MosquittoBack extends Mosquitto {
                 mqttClient.setCallback(new MqttCallback() {
                     @Override
                     public void messageArrived(String topic, MqttMessage message) throws Exception {
+                        /**
+                         * Gère les messages qui arrivent sur les topics "orders/+" et "serials/#". Pour les commandes,
+                         * elle désérialise le payload, valide la commande auprès de l'usine, puis ajoute la commande mutualisée.
+                         * En cas de succès, elle publie la livraison sur "orders/{uuid}/delivery". En cas d'erreur, elle publie une erreur sur "orders/{uuid}/error".
+                         * Pour les requêtes de numéros de série, elle récupère les numéros de série associés à l'ID dans le topic et publie les informations sur "serials/{uuid}".
+                         *
+                         * @param topic   Le topic sur lequel le message est arrivé
+                         * @param message Le message MQTT contenant le payload à traiter
+                         * @throws Exception Si une erreur survient lors du traitement du message
+                         *
+                         */
                         String payload = new String(message.getPayload());
                         String id = topic.split("/")[1];
                         if (topic.equals(topicNewOrder + id)) {
@@ -94,6 +105,10 @@ public class MosquittoBack extends Mosquitto {
     }
 
     public void validateOrder(String uuid) {
+        /**
+         * Renvoie la validation de la commande sur le topic "orders/{uuid}/validated".
+         * @param uuid L'identifiant unique de la commande
+         */
         MqttMessage emptyMessage = new MqttMessage("".getBytes());
         String topic = topicNewOrder + uuid + "/validated";
         emptyMessage.setQos(this.qos);
@@ -105,6 +120,10 @@ public class MosquittoBack extends Mosquitto {
     }
 
     public void cancelOrder(String uuid, String reason) {
+        /**
+         * Renvoie l'annulation de la commande sur le topic "orders/{uuid}/cancelled".
+         * @param uuid L'identifiant unique de la commande
+         */
         MqttMessage cancellation = new MqttMessage(reason.getBytes());
         String topic = topicNewOrder + uuid + "/cancelled";
         cancellation.setQos(this.qos);
@@ -116,6 +135,10 @@ public class MosquittoBack extends Mosquitto {
     }
 
     public void deliverOrder(String uuid, String content) {
+        /**
+         * Renvoie la livraison de la commande sur le topic "orders/{uuid}/delivery" avec le contenu des lunettes livrées.
+         * @param uuid L'identifiant unique de la commande
+         */
         MqttMessage delivery = new MqttMessage(content.getBytes());
         String topic = topicNewOrder + uuid + "/delivery";
         delivery.setQos(this.qos);
@@ -128,6 +151,10 @@ public class MosquittoBack extends Mosquitto {
     }
 
     public void errorOrder(String uuid, String error) {
+        /**
+         * Renvoie l'erreur de la commande sur le topic "orders/{uuid}/error".
+         * @param uuid L'identifiant unique de la commande
+         */
         MqttMessage errorMessage = new MqttMessage(error.getBytes());
         String topic = topicNewOrder + uuid + "/error";
         errorMessage.setQos(this.qos);
@@ -139,6 +166,12 @@ public class MosquittoBack extends Mosquitto {
     }
 
     public void serialsInfos(String uuid, String serials) {
+        /**
+         * Renvoie le serials de la commande sur le topic "serials/{uuid}".
+         * @param uuid L'identifiant unique de la commande
+         * @param serials Le numéro de série associé à la commande, ou "invalid" si le numéro de série n'est pas trouvé
+         * 
+         */
         MqttMessage serialsMessage = new MqttMessage(serials.getBytes());
         String topic = topicSerials + uuid;
         serialsMessage.setQos(this.qos);

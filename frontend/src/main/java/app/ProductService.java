@@ -11,6 +11,9 @@ public class ProductService {
     private static List<Product> products;
 
     public static List<Product> loadProducts() {
+        /**
+         * Chargement paresseux des produits depuis le fichier JSON. Le fichier est lu une seule fois et les produits sont mis en cache pour les appels suivants.
+         */
         if (products == null) {
             var stream = ProductService.class
                     .getResourceAsStream("/products.json");

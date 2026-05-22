@@ -38,6 +38,14 @@ public class MosquittoApp extends Mosquitto {
                 mqttClient.setCallback(new MqttCallback() {
                     @Override
                     public void messageArrived(String topic, MqttMessage message) throws Exception {
+                        /**
+                         * Traite les messages qui arrivent sur les topics "orders/+" et "serials/#".
+                         * Pour les commandes, elle extrait l'ID de la commande du topic, puis appelle les méthodes du listener en fonction du statut (validé, annulé, livraison, erreur).
+                         * Pour les requêtes de numéros de série, elle extrait l'ID du topic et appelle la méthode onChecked du listener avec le type de lunette reçu dans le payload.
+                         * @param topic   Le topic sur lequel le message est arrivé
+                         * @param message Le message MQTT contenant le payload à traiter
+                         * @throws Exception Si une erreur survient lors du traitement du message
+                         */
                         logger.debug("[APP] Message received on: {}", topic);
                          String payload = new String(message.getPayload());
                          String responseTopic = topic;
@@ -97,6 +105,12 @@ public class MosquittoApp extends Mosquitto {
     }
 
     public void order(String orderDetails, String uuid) {
+        /**
+         * Envoie la commande sur le topic "orders/{uuid}".
+         * @param orderDetails Les détails de la commande à envoyer dans le payload du message MQTT
+         * @param uuid         L'identifiant unique de la commande, utilisé pour construire le topic de la commande et pour s'abonner aux réponses associées à cette commande.
+         *
+         */
         MqttMessage newOrder = new MqttMessage(orderDetails.getBytes());
         String orderTopic = topicNewOrder + uuid;
         newOrder.setQos(this.qos);
@@ -109,6 +123,14 @@ public class MosquittoApp extends Mosquitto {
     }
 
     public void askSerials(String code) {
+        /**
+         * Envoie une requête pour obtenir les numéros de série associés à un code de lunette sur le topic "serials/{code}/check".
+         * Le payload du message contient le code de lunette à vérifier.
+         * Avant de publier la requête, l'application s'abonne au topic "serials/{code}" pour recevoir la réponse contenant les numéros de série.
+         * En cas d'erreur lors de l'abonnement ou de la publication, un message d'erreur est loggé.
+         *
+         * @param code ,numéro de série de la lunette à vérifier, utilisé pour construire le topic de la requête et pour s'abonner à la réponse associée à ce code.
+         */
         MqttMessage ask = new MqttMessage(code.getBytes());
         String topic = topicSerials + code + "/check";
         ask.setQos(this.qos);

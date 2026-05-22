@@ -17,6 +17,10 @@ public class AccueilController {
 
     @FXML
     private void onEntrerClique(ActionEvent event) throws IOException {
+        /**
+         * Chargement de la vue Catalogue.fxml et passage de l'instance de MosquittoApp au controller CatalogueController au moment où on appuie sur le bouton
+         *
+         */
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Catalogue.fxml"));
         Parent root = loader.load();
         CatalogueController controller = loader.getController();
@@ -28,6 +32,9 @@ public class AccueilController {
 
     @FXML
     private void onVerifierCliquer(ActionEvent event) throws IOException {
+        /**
+         * Chargement de la vue Verifier.fxml et passage de l'instance de MosquittoApp au controller de VerifierCOntroller au moment où on appuie sur le bouton
+         */
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/Verifier.fxml"));
         Parent root = loader.load();
         VerifierController controller = loader.getController();

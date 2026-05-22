@@ -34,9 +34,7 @@ public class AfficherController implements CommandeListener {
     @FXML
     public void initialize() {
         lblStatut.setText("En attente de fabrication par l'usine...");
-        // Spinner visible au départ
         progressIndicator.setVisible(true);
-        // Placeholder personnalisé
         listNumerosSerie.setPlaceholder(
                 new Label("Les numéros de série apparaîtront ici."));
     }
@@ -48,11 +46,14 @@ public class AfficherController implements CommandeListener {
 
     @Override
     public void onDelivery(String uuid, String serials) {
+        /**
+         * Gère la livraison des lunettes.
+         * @param uuid L'identifiant unique de la commande
+         * @param serials La chaîne de caractères sérialisée contenant les numéros de série des lunettes livrées
+         */
         List<String> lunettes = LivraisonSerializer.deserialize(serials);
         Platform.runLater(() -> {
-            // Cacher le spinner
             progressIndicator.setVisible(false);
-            // Mettre à jour le dot et le texte
             statusDot.getStyleClass().setAll("status-dot-ok");
             lblStatut.setText("Fabrication terminée ! "
                     + lunettes.size() + " paire(s) livrée(s).");
@@ -63,6 +64,10 @@ public class AfficherController implements CommandeListener {
 
     @FXML
     private void onRetourClique(ActionEvent event) {
+        /**
+         * Permet de retourner à la vue d'accueil.
+         * @param event L'événement déclenché par le clic sur le bouton de retour
+         */
         try {
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource("/views/Accueil.fxml"));

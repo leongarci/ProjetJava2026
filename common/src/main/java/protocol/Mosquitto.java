@@ -21,7 +21,14 @@ public abstract class Mosquitto {
     private static final Logger logger = LoggerFactory.getLogger(Mosquitto.class);
 
     protected void initClient(String client) throws MqttException {
-        // Remplacer les lignes 24 à 26 par :
+        /**
+         * Initialise le client MQTT en chargeant les paramètres de connexion depuis un fichier .properties situé dans le classpath.
+         * Le fichier doit contenir une clé "broker" avec l'URL du broker MQTT.
+         * En cas d'erreur lors du chargement du fichier ou de la connexion au broker, une exception est levée et un message d'erreur est loggé.
+         *
+         * @param client Le nom du client MQTT à utiliser pour la connexion
+         * @throws MqttException Si une erreur survient lors de la connexion au broker MQTT
+         */
         try (InputStream input = Mosquitto.class.getClassLoader().getResourceAsStream(".properties")) {
             if (input == null) {
                 throw new FileNotFoundException("Impossible de trouver .properties dans le classpath");
