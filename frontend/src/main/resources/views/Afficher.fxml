@@ -10,7 +10,6 @@
       prefWidth="680" prefHeight="500" spacing="0"
       style="-fx-background-color: #f7f6f2;">
 
-    <!-- HEADER -->
     <HBox styleClass="top-bar" alignment="CENTER_LEFT" spacing="10">
         <Label text="🕶" style="-fx-font-size:18px;"/>
         <Label text="La Fabrique de Lunettes" styleClass="topbar-brand"/>
@@ -18,24 +17,20 @@
         <Label text="SUIVI" styleClass="topbar-tag"/>
     </HBox>
 
-    <!-- TITRE + STATUT -->
     <VBox style="-fx-padding: 28 40 16 40;" spacing="6">
         <Label text="Suivi de fabrication" styleClass="titre-page"/>
 
-        <!-- Ligne statut : dot + texte + spinner -->
         <HBox alignment="CENTER_LEFT" spacing="10">
             <Label fx:id="statusDot" text="●" styleClass="status-dot-pending"/>
             <Label fx:id="lblStatut"
                    text="En attente de fabrication par l'usine..."
                    styleClass="sous-titre"/>
-            <!-- Spinner visible pendant la fabrication -->
             <ProgressIndicator fx:id="progressIndicator"
                                prefWidth="18" prefHeight="18"
                                styleClass="progress-small"/>
         </HBox>
     </VBox>
 
-    <!-- LISTE NUMÉROS DE SÉRIE -->
     <VBox VBox.vgrow="ALWAYS" style="-fx-padding: 0 40 0 40;" spacing="8">
         <Label text="NUMÉROS DE SÉRIE" styleClass="section-label-sm"/>
         <ListView fx:id="listNumerosSerie"
@@ -48,7 +43,6 @@
         </ListView>
     </VBox>
 
-    <!-- FOOTER -->
     <HBox styleClass="bottom-bar" alignment="CENTER_RIGHT"
           style="-fx-padding: 14 28 14 28;">
         <Button fx:id="btnRetour"

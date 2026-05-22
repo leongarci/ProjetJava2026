@@ -10,6 +10,6 @@ _Si vous avez déjà Mosquitto installé sur votre PC, vous pouvez passer à la 
 
 4. Depuis un terminal, placez vous à l'emplacement où vous avez téléchargé le fichier .yml, et lancez la commande `docker-compose up`
 
-5. Lancez tout d'abord le fichier _backend.jar_ avec la commande `truc` pour démarrer l'usine
+5. Lancez tout d'abord le fichier _backend.jar_ avec la commande `java -jar backend.jar` pour démarrer l'usine
 
-6. Lancez ensuite le fichier _frontend.jar_ avec la commande `truc` pour démarrer une interface client
+6. Lancez ensuite le fichier _frontend.jar_ avec la commande `java -jar frontend.jar'` pour démarrer une interface client

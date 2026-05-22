@@ -29,7 +29,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>frontend.AppLauncher</mainClass>
+                  <mainClass>MainLauncher</mainClass>
                 </transformer>
               </transformers>
             </configuration>

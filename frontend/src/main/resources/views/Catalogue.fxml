@@ -49,8 +49,7 @@
             </VBox>
         </VBox>
 
-        <!-- CARTE Claude -->
-        <VBox styleClass="product-card" prefWidth="194">
+²        <VBox styleClass="product-card" prefWidth="194">
             <ImageView fx:id="imgClaude" fitWidth="194" fitHeight="138" preserveRatio="false"
                        styleClass="product-image"/>
             <VBox styleClass="card-body" spacing="5">
@@ -95,7 +94,6 @@
             </VBox>
         </VBox>
 
-        <!-- CARTE Banana -->
         <VBox styleClass="product-card" prefWidth="194">
             <ImageView fx:id="imgBanana" fitWidth="194" fitHeight="138" preserveRatio="false"
                        styleClass="product-image"/>
@@ -120,7 +118,6 @@
 
     </HBox>
 
-    <!-- FOOTER -->
     <HBox styleClass="bottom-bar" alignment="CENTER_RIGHT" spacing="10"
           style="-fx-padding: 14 28 14 28;">
         <Label fx:id="labelStatus" text="" styleClass="status-label"/>

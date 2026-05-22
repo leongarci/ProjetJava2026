@@ -17,6 +17,11 @@
       <option name="url" value="https://maven.pkg.github.com/le-prof-de-raizo/repo-maven" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="github-lunettes" />
+      <option name="name" value="Mon dépôt Lunettes Factory" />
+      <option name="url" value="https://maven.pkg.github.com/ktelinesama/lunettes-factory" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Maven Central repository" />
       <option name="url" value="https://repo1.maven.org/maven2" />
@@ -25,6 +30,11 @@
       <option name="id" value="jboss.community" />
       <option name="name" value="JBoss Community repository" />
       <option name="url" value="https://repository.jboss.org/nexus/content/repositories/public/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="github-lunettes" />
+      <option name="name" value="Mon dépôt Lunettes Factory" />
+      <option name="url" value="https://maven.pkg.github.com/KTelineSama/lunettes-factory" />
     </remote-repository>
   </component>
 </project>
