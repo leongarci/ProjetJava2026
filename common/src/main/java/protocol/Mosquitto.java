@@ -1,6 +1,6 @@
 package protocol;
 
-import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -21,10 +21,14 @@ public abstract class Mosquitto {
     private static final Logger logger = LoggerFactory.getLogger(Mosquitto.class);
 
     protected void initClient(String client) throws MqttException {
-        try (InputStream input = new FileInputStream(".properties")) {
+        // Remplacer les lignes 24 à 26 par :
+        try (InputStream input = Mosquitto.class.getClassLoader().getResourceAsStream(".properties")) {
+            if (input == null) {
+                throw new FileNotFoundException("Impossible de trouver .properties dans le classpath");
+            }
             Properties prop = new Properties();
             prop.load(input);
-            this.mqttClient = new MqttClient(prop.getProperty("broker"), client,new MemoryPersistence());
+            this.mqttClient = new MqttClient(prop.getProperty("broker"), client, new MemoryPersistence());
             this.mqttClient.connect();
             this.qos = 1;
         } catch (IOException ex) {
